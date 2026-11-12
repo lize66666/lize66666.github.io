@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="李泽 Li Ze — 郑州大学金融数学本科背景，北京邮电大学数学博士阶段。Education and contact information.">
+  <meta name="theme-color" content="#f9faf8">
+  <meta property="og:title" content="李泽 · Li Ze">
+  <meta property="og:description" content="Financial Mathematics · Mathematics | 郑州大学 · 北京邮电大学">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lize66666.github.io/">
+  <link rel="canonical" href="https://lize66666.github.io/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%2328423c'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='36' text-anchor='middle' fill='white'%3EL%3C/text%3E%3C/svg%3E">
+  <title>李泽 · Li Ze</title>
+  <style>
+    :root { color-scheme: light; --paper: #f9faf8; --ink: #242b29; --muted: #68716b; --line: #dce1db; --green: #315c4f; --rose: #8f5264; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif; font-size: 16px; line-height: 1.8; letter-spacing: 0; }
+    a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+    a:hover { color: var(--green); }
+    button { font: inherit; }
+    :focus-visible { outline: 2px solid var(--green); outline-offset: 5px; }
+    .skip { position: absolute; left: 16px; top: -100px; padding: 8px 16px; background: white; z-index: 5; }
+    .skip:focus { top: 10px; }
+    .wrap { width: min(100% - 96px, 1040px); margin-inline: auto; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 29px; border-bottom: 1px solid var(--line); }
+    .wordmark { font-family: Georgia, "Songti SC", SimSun, serif; font-size: 22px; text-decoration: none; white-space: nowrap; }
+    .header-right, nav, .language { display: flex; align-items: center; }
+    .header-right { gap: 38px; }
+    nav { gap: 28px; }
+    nav a { font-size: 14px; text-decoration: none; }
+    .language { gap: 2px; border-left: 1px solid var(--line); padding-left: 20px; }
+    .language button { border: 0; background: transparent; color: var(--muted); cursor: pointer; min-width: 42px; min-height: 36px; padding: 4px 8px; font-size: 13px; border-radius: 4px; }
+    .language button[aria-pressed="true"] { color: var(--green); background: #e8eeea; font-weight: 600; }
+    .intro { padding: 76px 0 0; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--green); font-size: 12px; font-weight: 600; }
+    .eyebrow::before { content: ""; width: 21px; height: 2px; background: var(--green); }
+    .name { display: flex; align-items: baseline; flex-wrap: wrap; gap: 16px 28px; margin: 20px 0 24px; }
+    h1 { font-family: Georgia, "Songti SC", SimSun, serif; font-size: 72px; font-weight: 400; line-height: 1.2; margin: 0; }
+    .roman-name { font-family: Georgia, serif; color: var(--muted); font-size: 30px; }
+    .identity { max-width: 760px; margin: 0; font-size: 18px; line-height: 1.9; }
+    .intro-links { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 24px; font-size: 14px; }
+    .intro-links a { text-decoration-color: #b3bcb4; }
+    .math-figure { margin: 38px 0 0; position: relative; height: 154px; border-bottom: 1px solid var(--line); overflow: hidden; }
+    canvas { display: block; width: 100%; height: 153px; }
+    .figure-label { position: absolute; bottom: 12px; right: 0; font-family: Georgia, serif; font-size: 11px; color: var(--muted); background: var(--paper); padding-left: 12px; }
+    .section { display: grid; grid-template-columns: 185px minmax(0, 1fr); gap: 35px; padding: 46px 0; border-bottom: 1px solid var(--line); }
+    .section-heading { display: flex; align-items: baseline; gap: 16px; }
+    .number { font-size: 11px; font-family: Georgia, serif; color: var(--rose); }
+    h2 { margin: 0; font-size: 15px; font-weight: 600; }
+    .about-copy { max-width: 690px; margin: 0; color: #48524c; }
+    .education-list { display: grid; gap: 30px; margin: 0; padding: 0; list-style: none; }
+    .education-list li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 16px; }
+    .education-mark { margin-top: 9px; width: 10px; height: 10px; border: 1px solid var(--green); transform: rotate(45deg); }
+    .education-list li:last-child .education-mark { background: var(--green); }
+    h3 { font-size: 18px; margin: 0 0 4px; font-weight: 600; line-height: 1.7; }
+    .education-detail { margin: 0; color: var(--muted); font-size: 14px; }
+    .contact-list { display: grid; gap: 18px; }
+    .contact-row { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 20px; align-items: baseline; }
+    .contact-label { color: var(--muted); font-size: 13px; }
+    .contact-row a { width: fit-content; overflow-wrap: anywhere; text-decoration-color: #b3bcb4; }
+    footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding: 25px 0 35px; font-size: 12px; color: var(--muted); }
+    footer a { text-decoration: none; }
+    @media (max-width: 700px) {
+      .wrap { width: min(100% - 40px, 560px); }
+      header { align-items: flex-start; gap: 14px; padding-block: 21px; }
+      .header-right { gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+      nav { gap: 15px; }
+      nav a { font-size: 12px; }
+      .language { padding-left: 10px; }
+      .language button { min-width: 35px; padding-inline: 5px; }
+      .wordmark { font-size: 20px; }
+      .intro { padding-top: 48px; }
+      h1 { font-size: 54px; }
+      .roman-name { font-size: 25px; }
+      .name { gap: 12px 20px; }
+      .identity { font-size: 16px; }
+      .math-figure { margin-top: 25px; height: 126px; }
+      canvas { height: 125px; }
+      .section { grid-template-columns: 1fr; gap: 22px; padding-block: 32px; }
+      .contact-row { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; }
+      h3 { font-size: 17px; }
+    }
+    @media (max-width: 380px) {
+      header { flex-wrap: wrap; }
+      .header-right { width: 100%; justify-content: space-between; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media print { .language, .skip, canvas, .math-figure { display: none; } .wrap { width: 100%; } .intro { padding-top: 25px; } .section { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main" data-zh="跳到正文" data-en="Skip to content">跳到正文</a>
+  <div class="wrap">
+    <header>
+      <a class="wordmark" href="#" aria-label="李泽 Li Ze">李泽 <span lang="en">/ Li Ze</span></a>
+      <div class="header-right">
+        <nav aria-label="主导航" data-aria-zh="主导航" data-aria-en="Main navigation">
+          <a href="#about" data-zh="关于" data-en="About">关于</a>
+          <a href="#education" data-zh="教育" data-en="Education">教育</a>
+          <a href="#contact" data-zh="联系" data-en="Contact">联系</a>
+        </nav>
+        <div class="language" role="group" aria-label="语言 / Language">
+          <button type="button" data-language="zh" aria-pressed="true" lang="zh-CN">中文</button>
+          <button type="button" data-language="en" aria-pressed="false" lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+    <main id="main">
+      <section class="intro" aria-labelledby="name">
+        <div class="eyebrow" data-zh="数学 · 个人主页" data-en="MATHEMATICS · PERSONAL WEBSITE">数学 · 个人主页</div>
+        <div class="name"><h1 id="name">李泽</h1><span class="roman-name" lang="en">Li Ze</span></div>
+        <p class="identity" data-zh="郑州大学 · 金融数学本科背景<br>北京邮电大学 · 数学博士阶段" data-en="Undergraduate study in Financial Mathematics, Zhengzhou University<br>Doctoral study in Mathematics, Beijing University of Posts and Telecommunications">郑州大学 · 金融数学本科背景<br>北京邮电大学 · 数学博士阶段</p>
+        <div class="intro-links">
+          <a href="mailto:li.ze@bupt.edu.cn" data-zh="邮件联系 ↗" data-en="Get in touch ↗">邮件联系 ↗</a>
+          <a href="https://github.com/lize66666" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </div>
+        <figure class="math-figure" aria-label="原创数学曲线示意图" data-aria-zh="原创数学曲线示意图" data-aria-en="An original mathematical curve illustration">
+          <canvas id="curves" aria-hidden="true"></canvas>
+          <figcaption class="figure-label">f : X → Y</figcaption>
+        </figure>
+      </section>
+      <section class="section" id="about" aria-labelledby="about-title">
+        <div class="section-heading"><span class="number">01</span><h2 id="about-title" data-zh="关于我" data-en="About">关于我</h2></div>
+        <p class="about-copy" data-zh="你好，我是李泽。本科就读于郑州大学金融数学专业，博士阶段就读于北京邮电大学数学专业。欢迎通过邮件与我联系。" data-en="Hello, I am Li Ze. My academic background spans undergraduate study in Financial Mathematics at Zhengzhou University and doctoral study in Mathematics at Beijing University of Posts and Telecommunications. You are welcome to contact me by email.">你好，我是李泽。本科就读于郑州大学金融数学专业，博士阶段就读于北京邮电大学数学专业。欢迎通过邮件与我联系。</p>
+      </section>
+      <section class="section" id="education" aria-labelledby="education-title">
+        <div class="section-heading"><span class="number">02</span><h2 id="education-title" data-zh="教育经历" data-en="Education">教育经历</h2></div>
+        <ol class="education-list">
+          <li><span class="education-mark" aria-hidden="true"></span><div><h3 data-zh="郑州大学" data-en="Zhengzhou University">郑州大学</h3><p class="education-detail" data-zh="金融数学 · 本科" data-en="Financial Mathematics · Undergraduate study">金融数学 · 本科</p></div></li>
+          <li><span class="education-mark" aria-hidden="true"></span><div><h3 data-zh="北京邮电大学" data-en="Beijing University of Posts and Telecommunications">北京邮电大学</h3><p class="education-detail" data-zh="数学 · 博士阶段" data-en="Mathematics · Doctoral study">数学 · 博士阶段</p></div></li>
+        </ol>
+      </section>
+      <section class="section" id="contact" aria-labelledby="contact-title">
+        <div class="section-heading"><span class="number">03</span><h2 id="contact-title" data-zh="联系" data-en="Contact">联系</h2></div>
+        <div class="contact-list">
+          <div class="contact-row"><span class="contact-label" data-zh="学校邮箱" data-en="University">学校邮箱</span><a href="mailto:li.ze@bupt.edu.cn">li.ze@bupt.edu.cn</a></div>
+          <div class="contact-row"><span class="contact-label" data-zh="个人邮箱" data-en="Personal">个人邮箱</span><a href="mailto:lize.ddh@gmail.com">lize.ddh@gmail.com</a></div>
+          <div class="contact-row"><span class="contact-label">GitHub</span><a href="https://github.com/lize66666" target="_blank" rel="noopener noreferrer">lize66666 ↗</a></div>
+        </div>
+      </section>
+    </main>
+    <footer><span>© <span id="year">2026</span> <span data-zh="李泽" data-en="Li Ze">李泽</span></span><a href="https://github.com/lize66666">github.com/lize66666</a></footer>
+  </div>
+  <script>
+    (() => {
+      const languages = new Set(['zh', 'en']);
+      const applyLanguage = (language) => {
+        if (!languages.has(language)) return;
+        document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+        document.querySelectorAll('[data-zh]').forEach(element => {
+          // Only the fixed, author-provided translations are inserted as markup.
+          element.innerHTML = element.dataset[language];
+        });
+        document.querySelectorAll('[data-aria-zh]').forEach(element => element.setAttribute('aria-label', element.dataset[language === 'zh' ? 'ariaZh' : 'ariaEn']));
+        document.querySelectorAll('[data-language]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === language)));
+        document.title = language === 'zh' ? '李泽 · Li Ze' : 'Li Ze · 李泽';
+        document.querySelector('meta[name="description"]').content = language === 'zh' ? '李泽的个人主页：郑州大学金融数学本科背景，北京邮电大学数学博士阶段。教育经历与联系方式。' : 'Personal website of Li Ze. Financial Mathematics at Zhengzhou University; Mathematics at Beijing University of Posts and Telecommunications. Education and contact information.';
+        try { localStorage.setItem('lize-language', language); } catch (_) {}
+      };
+      let savedLanguage;
+      try { savedLanguage = localStorage.getItem('lize-language'); } catch (_) {}
+      const requestedLanguage = new URLSearchParams(location.search).get('lang');
+      applyLanguage(languages.has(requestedLanguage) ? requestedLanguage : languages.has(savedLanguage) ? savedLanguage : 'zh');
+      document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => applyLanguage(button.dataset.language)));
+      document.getElementById('year').textContent = new Date().getFullYear();
+      const canvas = document.getElementById('curves');
+      const draw = () => {
+        const bounds = canvas.getBoundingClientRect();
+        const ratio = Math.min(devicePixelRatio || 1, 2);
+        canvas.width = Math.round(bounds.width * ratio);
+        canvas.height = Math.round(bounds.height * ratio);
+        const context = canvas.getContext('2d');
+        if (!context) return;
+        context.scale(ratio, ratio);
+        const width = bounds.width, height = bounds.height;
+        context.strokeStyle = '#e9ede8'; context.lineWidth = 1;
+        for (let x = 0; x <= width; x += 40) { context.beginPath(); context.moveTo(x, 0); context.lineTo(x, height); context.stroke(); }
+        for (let y = 16; y < height; y += 32) { context.beginPath(); context.moveTo(0, y); context.lineTo(width, y); context.stroke(); }
+        for (let i = 0; i < 9; i++) {
+          context.beginPath(); context.strokeStyle = i === 4 ? '#315c4f' : i % 3 === 0 ? '#b78999' : '#a9beb1'; context.lineWidth = i === 4 ? 1.7 : 0.8;
+          for (let x = 0; x <= width; x += 2) {
+            const t = x / width;
+            const y = height * (0.5 + 0.21 * Math.sin(t * Math.PI * 2.2 + i * 0.18)) + (i - 4) * height * (0.018 + 0.04 * Math.sin(t * Math.PI) ** 2);
+            if (x === 0) context.moveTo(x, y); else context.lineTo(x, y);
+          }
+          context.stroke();
+        }
+      };
+      new ResizeObserver(draw).observe(canvas);
+      draw();
+    })();
+  </script>
+</body>
+</html>
