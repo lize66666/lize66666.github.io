@@ -40,6 +40,11 @@
     .education-item h3{grid-column:2;font-size:20px;font-weight:400;margin:0;line-height:1.65}.major{grid-column:2;font-size:18px}
     .contact-row dt{font-size:16px}.contact-row a{font-size:18px;font-weight:400}.contact-arrow{font-family:PixelBody,monospace}.footer{font-size:14px}
     @media(max-width:700px){body{font-size:18px}.chinese-name{font-size:30px}.intro-copy{font-size:18px}.section-title{font-size:24px}.education-item{grid-template-columns:82px minmax(0,1fr);gap:4px 12px;padding:16px 0 16px 18px}.education-item::before{top:26px;width:6px;height:6px}.degree{font-size:14px}.education-item h3{font-size:18px}.major{font-size:16px}.contact-row{grid-template-columns:80px minmax(0,1fr) 14px}.contact-row dt{font-size:14px}.contact-row a{font-size:16px}.footer{font-size:13px}}
+    .profile-header{display:grid;grid-template-columns:minmax(0,1fr) clamp(104px,14vw,140px);grid-template-areas:"name photo" "bio photo";align-items:center;column-gap:28px;max-width:880px}
+    .profile-header .name-line{grid-area:name}
+    .profile-header .intro-copy{grid-area:bio}
+    .profile-portrait{grid-area:photo;display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;object-position:50% 40%;padding:4px;background:var(--paper);border:2px solid var(--border);box-shadow:3px 3px 0 var(--shadow)}
+    @media(max-width:600px){.profile-header{grid-template-columns:minmax(0,1fr) clamp(60px,17vw,88px);grid-template-areas:"name photo" "bio bio";column-gap:12px}.profile-portrait{padding:2px}}
     .name-transport{margin:30px 0 0;max-width:880px}
     .transport-caption,.transport-tools{display:flex;align-items:center;gap:12px}
     .transport-caption{justify-content:space-between;flex-wrap:wrap;gap:0 14px;color:var(--ink);font-size:20px}
@@ -94,8 +99,11 @@
   </div><nav class="mobile-nav shell" aria-label="移动导航" data-aria-zh="移动导航" data-aria-en="Mobile navigation"><a href="#about" data-zh="关于" data-en="ABOUT">关于</a><a href="#research" data-zh="研究" data-en="RESEARCH">研究</a><a href="#education" data-zh="教育" data-en="EDUCATION">教育</a><a href="#contact" data-zh="联系" data-en="CONTACT">联系</a></nav></header>
   <main id="main" class="shell">
     <section class="intro" aria-labelledby="name"><p class="eyebrow pixel" data-zh="PERSONAL WEBSITE / 个人主页" data-en="PERSONAL WEBSITE">PERSONAL WEBSITE / 个人主页</p>
-      <div class="name-line"><h1 id="name" class="pixel" lang="en">LI ZE</h1><span class="chinese-name" lang="zh-CN">李泽</span></div>
-      <p class="intro-copy" data-zh="本科-郑州大学-金融数学<br>博士-北京邮电大学-数学" data-en="Undergraduate study in Financial Mathematics, Zhengzhou University<br>Doctoral study in Mathematics, Beijing University of Posts and Telecommunications">本科-郑州大学-金融数学<br>博士-北京邮电大学-数学</p>
+      <div class="profile-header">
+        <div class="name-line"><h1 id="name" class="pixel" lang="en">LI ZE</h1><span class="chinese-name" lang="zh-CN">李泽</span></div>
+        <img class="profile-portrait" src="portrait.png" width="256" height="256" alt="李泽 / Li Ze">
+        <p class="intro-copy" data-zh="本科-郑州大学-金融数学<br>博士-北京邮电大学-数学" data-en="Undergraduate study in Financial Mathematics, Zhengzhou University<br>Doctoral study in Mathematics, Beijing University of Posts and Telecommunications">本科-郑州大学-金融数学<br>博士-北京邮电大学-数学</p>
+      </div>
       <div class="actions"><a class="action" href="mailto:li.ze@bupt.edu.cn"><span data-zh="邮件联系" data-en="EMAIL ME">邮件联系</span><span aria-hidden="true">↗</span></a><a class="action secondary" href="https://github.com/lize66666" target="_blank" rel="noopener noreferrer">GITHUB <span aria-hidden="true">↗</span></a></div>
       <figure class="name-transport" aria-labelledby="transport-title">
         <figcaption class="transport-caption">

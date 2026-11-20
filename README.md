@@ -24,3 +24,7 @@ Edit `index.html`. Chinese and English text are stored side by side in
 The site uses no external fonts, tracking services, or JavaScript dependencies.
 Dates, advisors, publications, and degree-completion claims are intentionally
 omitted because they have not been provided.
+
+### 更换个人照片
+
+将自己的 PNG 照片命名为 `portrait.png`，上传到仓库根目录，替换同名的 LZ 占位图。GitHub Pages 发布后，照片就会显示在首页姓名右侧。照片按正方形居中偏上裁切。
