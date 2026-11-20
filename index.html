@@ -44,16 +44,16 @@
     .transport-caption,.transport-tools{display:flex;align-items:center;gap:12px}
     .transport-caption{justify-content:space-between;flex-wrap:wrap;gap:0 14px;color:var(--ink);font-size:20px}
     .transport-method,.transport-hint{color:var(--muted);font-size:14px}
-    .transport-stage{position:relative;margin:7px 0 0;border-block:1px dashed var(--shadow);background-image:radial-gradient(var(--grid) 1px,transparent 1px);background-size:12px 12px;user-select:none;touch-action:pan-y}
-    .transport-field{display:block;width:100%;height:clamp(122px,18vw,165px);overflow:hidden}
-    .transport-ghost{fill:var(--blue);opacity:.24}
-    .transport-particles{fill:var(--blue)}
-    .transport-lines{stroke:var(--blue);stroke-width:1;opacity:.16}
-    .transport-tips{fill:none;stroke:var(--transport-arrow);stroke-width:1;opacity:.78}
-    .transport-lines line:not(.featured),.transport-tips path:not(.featured){display:none}
-    .transport-lines .featured{stroke-width:1.5}
-    .all-paths .transport-lines line,.all-paths .transport-tips path{display:inline}
-    .transport-tips path:not(.featured){opacity:.32}
+    .transport-stage{position:relative;cursor:grab;touch-action:none;user-select:none;margin:7px 0 0;border-block:1px dashed var(--shadow);background:radial-gradient(ellipse at 50% 100%,var(--wash),transparent 80%)}
+    .transport-stage.orbiting{cursor:grabbing}
+    .transport-stage:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+    .transport-field{display:block;width:100%;height:clamp(158px,27vw,265px)}
+    .name-transport{--cube-front:#2869a6;--cube-lit:#87c5f1;--cube-shade:#194269;--ghost-front:#b4cce0;--ghost-lit:#d5e2ee;--ghost-shade:#829bb5;--end-front:#93c6b5;--end-lit:#c7e7d7;--end-shade:#66968b}
+    [data-theme=dark] .name-transport{--cube-front:#8ec7f5;--cube-lit:#dfedff;--cube-shade:#4779a3;--ghost-front:#41546b;--ghost-lit:#576d83;--ghost-shade:#303e50;--end-front:#42695f;--end-lit:#638c7c;--end-shade:#344c48}
+    .transport-reset{color:var(--muted);border:0;border-bottom:1px dashed var(--shadow);background:none;font:inherit;padding:2px 1px;white-space:nowrap}
+    .transport-foot{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:6px;font-size:14px}
+    .transport-foot .transport-hint{margin:0}
+    @media(pointer:coarse){.transport-reset{min-height:44px}}
     .transport-tools{margin-top:9px;font-size:16px;line-height:1.3}
     .transport-play{color:#292735;background:var(--mint);border:2px solid var(--border);box-shadow:2px 2px 0 var(--shadow);padding:4px 10px;min-width:63px}
     .transport-play:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--shadow)}
@@ -92,18 +92,10 @@
       <figure class="name-transport" aria-labelledby="transport-title">
         <figcaption class="transport-caption">
           <span id="transport-title" data-zh="名字的最优传输" data-en="A name in optimal transport">名字的最优传输</span>
-          <span class="transport-method" data-zh="二维 · 最小总平方距离" data-en="2D · minimum total squared distance">二维 · 最小总平方距离</span>
+          <span class="transport-method" data-zh="三维 · 最小总平方距离" data-en="3D · minimum total squared distance">三维 · 最小总平方距离</span>
         </figcaption>
-        <div class="transport-stage">
-          <svg class="transport-field" role="img" aria-label="等质量像素从李泽移向 LI ZE，箭头表示传输方向。" data-aria-zh="等质量像素从李泽移向 LI ZE，箭头表示传输方向。" data-aria-en="Equal-mass pixels move from 李泽 to LI ZE. Arrows show their direction.">
-            <defs>
-              <marker id="transport-tip" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L6 3 0 6 1.5 3Z" fill="var(--transport-arrow)"/></marker>
-            </defs>
-            <g class="transport-ghost"></g>
-            <g class="transport-lines"></g>
-            <g class="transport-tips"></g>
-            <g class="transport-particles"></g>
-          </svg>
+        <div class="transport-stage" data-scene="voxel-orbit" tabindex="0" role="group" aria-label="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-zh="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-en="3D name clouds. Use the arrow keys to rotate and Home to reset the view.">
+          <canvas class="transport-field" role="img" aria-label="李泽和 LI ZE 各由四层立方块构成，箭头指向每个方块的传输终点。" data-aria-zh="李泽和 LI ZE 各由四层立方块构成，箭头指向每个方块的传输终点。" data-aria-en="Four layers of cubes form 李泽 and LI ZE. Arrows point toward the destination of each cube.">李泽 → LI ZE</canvas>
         </div>
         <div class="transport-tools">
           <button class="transport-play" type="button">
@@ -113,7 +105,10 @@
           <output for="transport-time">0%</output>
           <label class="transport-tracks"><input type="checkbox"><span data-zh="全部轨迹" data-en="All paths">全部轨迹</span></label>
         </div>
-        <p class="transport-hint"><span class="fine-pointer" data-zh="横移鼠标，查看任一时刻。" data-en="Move across the graphic to explore any moment.">横移鼠标，查看任一时刻。</span><span class="coarse-pointer" data-zh="按住并左右拖动，查看任一时刻。" data-en="Touch and drag to explore any moment.">按住并左右拖动，查看任一时刻。</span></p>
+        <div class="transport-foot">
+          <p class="transport-hint"><span class="fine-pointer" data-zh="鼠标横移定位进度 · 拖动旋转视角" data-en="Hover to scrub · Drag to rotate">鼠标横移定位进度 · 拖动旋转视角</span><span class="coarse-pointer" data-zh="拖动旋转视角 · 滑杆调节进度" data-en="Drag to rotate · Use the slider to scrub">拖动旋转视角 · 滑杆调节进度</span></p>
+          <button type="button" class="transport-reset" data-zh="复位视角" data-en="Reset view">复位视角</button>
+        </div>
       </figure>
     </section>
     <section id="about" class="content-section" aria-labelledby="about-title"><h2 class="section-title"><span class="section-id" aria-hidden="true">01</span><span id="about-title" data-zh="关于我" data-en="ABOUT ME">关于我</span></h2><p class="about-content" data-zh="你好，我是李泽。本科就读于郑州大学金融数学专业，博士阶段就读于北京邮电大学数学专业。欢迎通过邮件与我联系。" data-en="Hello, I am Li Ze. My academic background spans undergraduate study in Financial Mathematics at Zhengzhou University and doctoral study in Mathematics at Beijing University of Posts and Telecommunications. You are welcome to contact me by email.">你好，我是李泽。本科就读于郑州大学金融数学专业，博士阶段就读于北京邮电大学数学专业。欢迎通过邮件与我联系。</p></section>
@@ -141,13 +136,13 @@
     (() => {
       const figure = document.querySelector('.name-transport');
       const field = figure.querySelector('.transport-field');
+      const ctx = field.getContext('2d');
+      if (!ctx) return;
       const stage = figure.querySelector('.transport-stage');
-      const slider = figure.querySelector('#transport-time');
-      const output = figure.querySelector('output');
-      const play = figure.querySelector('.transport-play');
-      const paths = figure.querySelector('.transport-tracks input');
+      const slider = figure.querySelector('#transport-time'), output = figure.querySelector('output');
+      const play = figure.querySelector('.transport-play'), paths = figure.querySelector('.transport-tracks input');
+      const reset = figure.querySelector('.transport-reset');
       const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-      // Occupied cells of the Chinese and Latin lettering. Each grid has 90 equal masses.
       const chinese = [
         '.....#.......#..#######', '###########...#.#.....#', '...#.#.#.........#...#.',
         '..#..#..#...#.....###..', '##...#...##..#..##...##', '..#######..........#...',
@@ -160,129 +155,217 @@
         '##........##........###....##.....', '##........##.......###.....##.....',
         '#####....####......######..#######'
       ];
-      // A minimum-cost assignment for squared Euclidean distance, indexed in row-major order.
-      // Translating either name or scaling each by a positive scalar keeps this pairing optimal.
-      const pairing = [
-        3,9,10,11,12,13,14,15,18,19,0,20,1,2,22,4,5,6,7,8,23,24,17,29,21,31,25,16,38,30,
-        41,33,26,27,36,28,37,39,32,42,43,34,35,48,49,50,51,52,40,53,54,55,45,63,44,57,
-        58,46,47,61,62,56,67,68,59,69,60,72,74,76,77,78,64,65,81,82,66,83,85,87,88,89,
-        73,80,84,70,71,75,79,86
-      ];
-      function readGrid(rows) {
-        const points = [];
-        rows.forEach((row,y) => [...row].forEach((cell,x) => {
-          if (cell === '#') points.push([x-(row.length-1)/2,y-(rows.length-1)/2]);
+      // Four equally weighted voxels per ink cell. The two relief profiles differ in depth.
+      function cloud(rows, isSource) {
+        const points = [], step = isSource ? 1.10 : .90;
+        rows.forEach((row,j) => [...row].forEach((cell,i) => {
+          if (cell !== '#') return;
+          const x = i - (row.length-1)/2, y = (rows.length-1)/2 - j;
+          const relief = isSource ? .012*x*x + .16*y : -.14*x - .16*y;
+          for (let layer=0;layer<4;layer++) {
+            points.push([(isSource?-19:18)+step*x, (isSource?1.3:0)+step*y,
+              (isSource?-5:5) + relief + (layer-1.5)*1.18]);
+          }
         }));
         return points;
       }
-      const origin = readGrid(chinese), letters = readGrid(english);
-      const destination = pairing.map(index => letters[index]);
-      function element(layer, tag, attributes = {}) {
-        const item = document.createElementNS('http://www.w3.org/2000/svg',tag);
-        for (const [key,value] of Object.entries(attributes)) item.setAttribute(key,value);
-        layer.appendChild(item);
-        return item;
+      const origin = cloud(chinese,true), target = cloud(english,false);
+      // One exact assignment minimizing sum(||a_i-b_j||²) in 3D, indexed by source voxel.
+      const pairing = [
+        17,18,19,15,36,37,38,39,44,41,42,43,48,45,46,47,52,49,50,51,56,53,54,55,
+        60,57,58,59,64,61,62,63,73,74,75,67,1,2,3,115,76,77,78,79,0,81,82,83,
+        4,5,6,7,8,9,10,11,12,13,14,87,16,89,90,91,20,21,22,23,24,25,26,27,
+        28,29,30,31,32,33,34,35,40,93,94,95,96,97,98,99,72,69,70,71,80,117,118,119,
+        84,85,86,123,88,125,126,127,100,101,102,103,68,65,66,111,116,113,114,155,120,121,122,159,
+        164,165,166,167,92,133,134,131,104,105,106,107,108,109,110,143,144,145,146,147,148,201,202,203,
+        112,149,150,151,124,157,158,163,168,169,170,223,128,129,130,171,132,173,174,135,136,137,138,175,
+        140,141,142,139,192,194,190,191,197,198,199,195,200,153,154,243,152,204,205,207,208,209,210,206,
+        156,213,214,211,160,161,162,215,216,217,218,255,220,221,222,219,180,181,182,183,252,253,254,259,
+        176,177,178,179,228,229,230,231,184,185,234,235,188,189,186,187,196,193,350,351,244,245,246,247,
+        212,249,250,251,172,225,226,227,232,233,270,271,272,273,274,275,236,237,238,239,240,241,242,279,
+        280,281,282,283,288,285,286,287,248,293,294,295,304,305,306,307,308,309,310,311,312,313,314,315,
+        256,257,258,319,260,261,262,263,224,325,326,327,328,329,330,331,264,265,266,267,332,333,334,335,
+        268,269,342,339,348,349,346,347,352,353,354,355,356,357,358,359,296,297,298,299,320,321,322,323,
+        340,345,337,343,284,276,277,278,292,289,290,291,300,301,302,303,324,316,317,318,344,336,341,338
+      ];
+      const destination = pairing.map(j=>target[j]);
+      const featured = [9,63,122,197,267,337];
+      const hold = 1250, duration = 5300, period = hold+duration+1600;
+      const homeYaw=.27, homePitch=.235;
+      let yaw=homeYaw, pitch=homePitch, time=0, last=null, frame=0;
+      let playing=!reducedMotion.matches, hover=false, drag=null, visible=true;
+      let w=0,h=0,scale=1,dpr=1,progressDrawn=-1;
+      let basis,faces,colors, sprites,background;
+      function project(x,y,z) {
+        const z1=x*basis.sy+z*basis.cy;
+        return [w/2+scale*(x*basis.cy-z*basis.sy),h*.49-scale*(y*basis.cp-z1*basis.sp),
+          y*basis.sp+z1*basis.cp];
       }
-      const ghosts = figure.querySelector('.transport-ghost');
-      const lines = figure.querySelector('.transport-lines');
-      const arrows = figure.querySelector('.transport-tips');
-      const particles = figure.querySelector('.transport-particles');
-      const featured = new Set([2,17,35,57,85]);
-      const marks = origin.map((_,i) => {
-        const group = featured.has(i) ? {class:'featured'} : {};
-        return {
-          start:element(ghosts,'rect'), end:element(ghosts,'rect'),
-          line:element(lines,'line',group),
-          arrow:element(arrows,'path',{...group,'marker-end':'url(#transport-tip)'}),
-          pixel:element(particles,'rect')
-        };
-      });
-      const lead = 1200, travel = 4800, period = lead + travel + 1550;
-      let clock = 0, frame = 0, last = null, inside = false, visible = true;
-      let playing = !reducedMotion.matches, startSize = 0, endSize = 0;
-      let positions = [], lastPainted = null;
-      function paint() {
-        const t = Math.min(1, Math.max(0,(clock-lead)/travel));
-        if (t === lastPainted) return;
-        lastPainted = t;
-        const size = (1-t)*startSize + t*endSize;
-        for (let i=0;i<positions.length;i++) {
-          const {x,y,dx,dy} = positions[i];
-          const pixel = marks[i].pixel;
-          pixel.setAttribute('x',x+t*dx-size/2);
-          pixel.setAttribute('y',y+t*dy-size/2);
-          pixel.setAttribute('width',size);
-          pixel.setAttribute('height',size);
+      function makeCanvas(width,height) {
+        const canvas=document.createElement('canvas');
+        canvas.width=Math.ceil(width*dpr); canvas.height=Math.ceil(height*dpr);
+        const context=canvas.getContext('2d');
+        context.scale(dpr,dpr);
+        return {canvas,context};
+      }
+      // All cubes have the same orientation. Cache their three lit faces once per camera view.
+      function cubeSprite(size,palette) {
+        const box=Math.ceil(scale*size*2+4), {canvas,context}=makeCanvas(box,box);
+        for (const [corners,shade] of faces) {
+          context.beginPath();
+          corners.forEach(([x,y,z],i)=>{
+            const p=project(x*size/2,y*size/2,z*size/2);
+            const px=box/2+p[0]-w/2, py=box/2+p[1]-h*.49;
+            if (i===0) context.moveTo(px,py); else context.lineTo(px,py);
+          });
+          context.closePath(); context.fillStyle=palette[shade]; context.fill();
         }
-        const percent = String(Math.round(t*100));
-        if (slider.value !== percent) slider.value = percent;
-        if (output.value !== percent+'%') output.value = percent+'%';
+        return {canvas,box};
+      }
+      function stamp(context,sprite,point) {
+        context.drawImage(sprite.canvas, point[0]-sprite.box/2,point[1]-sprite.box/2,sprite.box,sprite.box);
+      }
+      function line(context,a,b,color,width=1) {
+        context.beginPath();context.moveTo(a[0],a[1]);context.lineTo(b[0],b[1]);
+        context.strokeStyle=color; context.lineWidth=width; context.stroke();
+      }
+      function trace(context,i,full) {
+        const a=project(...origin[i]), b=project(...destination[i]);
+        const dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy);
+        if (length<1) return;
+        const at=.35+(i%17)/45, px=a[0]+at*dx,py=a[1]+at*dy;
+        const ux=dx/length,uy=dy/length,s=full?2.9:Math.max(3.4,Math.min(5.4,w/135));
+        context.globalAlpha=full?.045:.36;
+        line(context,a,b,colors.ink,full?.65:1);
+        context.globalAlpha=full?.23:.88;
+        context.fillStyle=colors.ink;context.beginPath();context.moveTo(px+s*ux,py+s*uy);
+        context.lineTo(px-s*ux+.6*s*uy,py-s*uy-.6*s*ux);
+        context.lineTo(px-s*ux-.6*s*uy,py-s*uy+.6*s*ux);
+        context.closePath();context.fill();context.globalAlpha=1;
+      }
+      function setScene() {
+        if (!w || !h) return;
+        basis={sy:Math.sin(yaw),cy:Math.cos(yaw),sp:Math.sin(pitch),cp:Math.cos(pitch)};
+        const sx=basis.sy>=0?1:-1,sy=basis.sp>=0?1:-1,sz=basis.cy>=0?1:-1;
+        faces=[
+          [[[sx,-1,-1],[sx,1,-1],[sx,1,1],[sx,-1,1]],1],
+          [[[-1,sy,-1],[1,sy,-1],[1,sy,1],[-1,sy,1]],sy>0?0:1],
+          [[[-1,-1,sz],[1,-1,sz],[1,1,sz],[-1,1,sz]],2]
+        ];
+        const data=getComputedStyle(figure);
+        const get=name=>data.getPropertyValue(name).trim();
+        colors={grid:get('--grid'),ink:get('--blue'),edge:get('--shadow')};
+        sprites={
+          moving:cubeSprite(.86,[get('--cube-lit'),get('--cube-shade'),get('--cube-front')]),
+          source:cubeSprite(.78,[get('--ghost-lit'),get('--ghost-shade'),get('--ghost-front')]),
+          target:cubeSprite(.78,[get('--end-lit'),get('--end-shade'),get('--end-front')])
+        };
+        const layer=makeCanvas(w,h), back=layer.context; background=layer.canvas;
+        // A floor grid supplies a fixed reference while the visitor orbits the clouds.
+        back.save(); back.beginPath();back.rect(0,0,w,h);back.clip();
+        for(let x=-36;x<=36;x+=4)line(back,project(x,-8,-12),project(x,-8,12),colors.grid,.85);
+        for(let z=-12;z<=12;z+=4)line(back,project(-36,-8,z),project(36,-8,z),colors.grid,.85);
+        back.restore();
+        const anchors=[];
+        for(let i=0;i<origin.length;i++){
+          anchors.push([project(...origin[i]),sprites.source],[project(...target[i]),sprites.target]);
+        }
+        anchors.sort((a,b)=>a[0][2]-b[0][2]);
+        for(const [point,sprite] of anchors)stamp(back,sprite,point);
+        if(paths.checked) for(let i=0;i<origin.length;i++)trace(back,i,true);
+        for(const i of featured) trace(back,i,false);
+        paint(true);
+      }
+      function paint(force=false) {
+        if(!background)return;
+        const t=Math.min(1,Math.max(0,(time-hold)/duration));
+        if(t===progressDrawn&&!force)return;
+        progressDrawn=t;
+        ctx.clearRect(0,0,w,h);ctx.drawImage(background,0,0,w,h);
+        const points=origin.map(([x,y,z],i)=>{
+          const b=destination[i];
+          return project(x+(b[0]-x)*t,y+(b[1]-y)*t,z+(b[2]-z)*t);
+        }).sort((a,b)=>a[2]-b[2]);
+        for(const p of points)stamp(ctx,sprites.moving,p);
+        const percent=String(Math.round(100*t));
+        if(slider.value!==percent)slider.value=percent;
+        if(output.value!==percent+'%')output.value=percent+'%';
       }
       function layout() {
-        const w = field.clientWidth, h = field.clientHeight;
-        if (!w || !h) return;
-        const a = Math.min(w*.32/chinese[0].length,h*.65/chinese.length);
-        const b = Math.min(w*.39/english[0].length,h*.52/english.length);
-        startSize = a*.92; endSize = b*.92;
-        positions = origin.map(([sx,sy],i) => {
-          const x = .205*w+sx*a, y = h/2+sy*a;
-          const tx = .765*w+destination[i][0]*b, ty = h/2+destination[i][1]*b;
-          const dx = tx-x, dy = ty-y;
-          const {start,end,line,arrow} = marks[i];
-          for(const [rect,cx,cy,size] of [[start,x,y,startSize],[end,tx,ty,endSize]]){
-            rect.setAttribute('x',cx-size/2); rect.setAttribute('y',cy-size/2);
-            rect.setAttribute('width',size); rect.setAttribute('height',size);
-          }
-          line.setAttribute('x1',x); line.setAttribute('y1',y);
-          line.setAttribute('x2',tx); line.setAttribute('y2',ty);
-          // Stagger the arrowheads so neighboring paths can be read separately.
-          const at = .36+((i*7)%19)/52;
-          arrow.setAttribute('d','M '+(x+dx*(at-.05))+' '+(y+dy*(at-.05))+' L '+(x+dx*at)+' '+(y+dy*at));
-          return {x,y,dx,dy};
-        });
-        lastPainted = null;
-        paint();
+        w=field.clientWidth;h=field.clientHeight;
+        dpr=Math.min(2,window.devicePixelRatio||1);
+        field.width=Math.round(w*dpr); field.height=Math.round(h*dpr);
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+        scale=Math.min(w/76,h/23);
+        fitView();
+      }
+      function fitView() {
+        // Refit the full cloud when an orbit turns its long axis upright on a narrow canvas.
+        const sy=Math.sin(yaw),cy=Math.cos(yaw),sp=Math.sin(pitch),cp=Math.cos(pitch);
+        const bounds=[...origin,...target].reduce((m,[x,y,z])=>Math.max(m,Math.abs(y*cp-(x*sy+z*cy)*sp)),1);
+        scale=Math.min(w/76,h/23,h*.44/(bounds+1));
+        setScene();
       }
       function tick(now) {
-        if (last !== null) clock = (clock + now-last) % period;
-        last = now; paint();
-        frame = requestAnimationFrame(tick);
+        if(last!==null) time=(time+now-last)%period;
+        last=now;paint();frame=requestAnimationFrame(tick);
       }
       function syncPlayback() {
-        cancelAnimationFrame(frame); last = null;
-        figure.dataset.playing = String(playing);
-        if (playing && !inside && visible && !document.hidden) frame = requestAnimationFrame(tick);
+        cancelAnimationFrame(frame);last=null;figure.dataset.playing=String(playing);
+        if(playing&&!hover&&!drag&&visible&&!document.hidden)frame=requestAnimationFrame(tick);
       }
       function seek(fraction) {
-        clock = lead + travel*Math.max(0,Math.min(1,fraction));
-        paint();
+        time=hold+duration*Math.min(1,Math.max(0,fraction));paint();
       }
-      function pointAt(event) {
-        const box = stage.getBoundingClientRect();
-        if (!inside) { inside = true; syncPlayback(); }
-        seek((event.clientX-box.left)/box.width);
+      function hoverAt(e) {
+        if(!hover){hover=true;syncPlayback();}
+        const box=stage.getBoundingClientRect();seek((e.clientX-box.left)/box.width);
       }
-      function leave() { inside = false; syncPlayback(); }
-      stage.addEventListener('pointerenter',event => { if (event.pointerType !== 'touch') pointAt(event); });
-      stage.addEventListener('pointerdown',event => {
-        if (!event.isPrimary) return;
-        if (event.pointerType === 'touch') stage.setPointerCapture(event.pointerId);
-        pointAt(event);
+      function orbit(dx,dy) {
+        yaw=(yaw+dx)%(2*Math.PI);
+        pitch=Math.max(-1.40,Math.min(1.40,pitch+dy));
+        fitView();
+      }
+      function resetView(){yaw=homeYaw;pitch=homePitch;fitView();}
+      stage.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch'&&!drag)hoverAt(e)});
+      stage.addEventListener('pointerdown',e=>{
+        if(!e.isPrimary||e.button!==0)return;
+        drag={id:e.pointerId,x:e.clientX,y:e.clientY};stage.setPointerCapture(e.pointerId);
+        stage.classList.add('orbiting');syncPlayback();
       });
-      stage.addEventListener('pointermove',event => {
-        if (event.isPrimary && (event.pointerType !== 'touch' || stage.hasPointerCapture(event.pointerId))) pointAt(event);
+      stage.addEventListener('pointermove',e=>{
+        if(drag && drag.id===e.pointerId){
+          orbit((drag.x-e.clientX)*.009,(e.clientY-drag.y)*.009);
+          drag.x=e.clientX;drag.y=e.clientY;
+        }else if(!drag&&e.isPrimary&&e.pointerType!=='touch')hoverAt(e);
       });
-      stage.addEventListener('pointerup',event => { if (event.pointerType === 'touch') leave(); });
-      stage.addEventListener('pointercancel',leave);
-      stage.addEventListener('pointerleave',leave);
-      play.addEventListener('click',() => { playing = !playing; syncPlayback(); });
-      slider.addEventListener('input',() => { playing = false; syncPlayback(); seek(Number(slider.value)/100); });
-      paths.addEventListener('change',() => figure.classList.toggle('all-paths',paths.checked));
-      reducedMotion.addEventListener('change',() => { playing = !reducedMotion.matches; syncPlayback(); });
+      function release(e){
+        if(!drag||drag.id!==e.pointerId)return;
+        drag=null;stage.classList.remove('orbiting');
+        const box=stage.getBoundingClientRect();
+        hover=e.type!=='pointercancel'&&e.pointerType!=='touch'&&
+          e.clientX>=box.left&&e.clientX<box.right&&e.clientY>=box.top&&e.clientY<box.bottom;
+        syncPlayback();
+      }
+      stage.addEventListener('pointerup',release);
+      stage.addEventListener('pointercancel',release);
+      stage.addEventListener('lostpointercapture',release);
+      stage.addEventListener('pointerleave',()=>{if(!drag){hover=false;syncPlayback();}});
+      stage.addEventListener('keydown',e=>{
+        const steps={ArrowLeft:[-.14,0],ArrowRight:[.14,0],ArrowUp:[0,.12],ArrowDown:[0,-.12]};
+        if(steps[e.key]){e.preventDefault();orbit(...steps[e.key]);}
+        else if(e.key==='Home'){e.preventDefault();resetView();}
+      });
+      reset.addEventListener('click',resetView);
+      play.addEventListener('click',()=>{playing=!playing;syncPlayback();});
+      slider.addEventListener('input',()=>{playing=false;syncPlayback();seek(Number(slider.value)/100);});
+      paths.addEventListener('change',setScene);
+      reducedMotion.addEventListener('change',()=>{playing=!reducedMotion.matches;syncPlayback();});
       document.addEventListener('visibilitychange',syncPlayback);
-      new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; syncPlayback(); }).observe(figure);
+      new MutationObserver(setScene).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+      new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;syncPlayback();}).observe(figure);
       new ResizeObserver(layout).observe(field);
-      layout(); syncPlayback();
+      layout();syncPlayback();
     })();
   </script>
   <!--
