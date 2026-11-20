@@ -49,9 +49,6 @@
     .name-transport button{touch-action:manipulation}
     .transport-modes button[aria-pressed=true]{background:var(--mint);color:#292735}
     .transport-note{margin:5px 0;color:var(--muted);font-size:15px;line-height:1.5}
-    .transport-note::before{content:'';display:inline-block;width:8px;height:8px;background:var(--tracer);margin-right:7px}
-    .name-transport{--tracer:#aa480e;--tracer-lit:#ffd38b;--tracer-shade:#813106}
-    [data-theme=dark] .name-transport{--tracer:#ffae69;--tracer-lit:#ffe4ae;--tracer-shade:#cb6b36}
     @media(pointer:coarse){.transport-modes button{min-height:44px}}
     .research-entry{max-width:860px;padding:0 0 15px}
     .research-entry h3{font-size:19px;font-weight:400;margin:0 0 3px}
@@ -104,11 +101,11 @@
         <figcaption class="transport-caption">
           <span id="transport-title" data-zh="名字的最优传输" data-en="A name in optimal transport">名字的最优传输</span>
           <div class="transport-modes" role="group" aria-label="传输模式" data-aria-zh="传输模式" data-aria-en="Transport mode">
-            <button type="button" data-mode="ordinary" aria-pressed="true" data-zh="普通 OT" data-en="Standard OT">普通 OT</button>
+            <button type="button" data-mode="ordinary" aria-pressed="true" data-zh="标准 OT" data-en="Standard OT">标准 OT</button>
             <button type="button" data-mode="entropy" aria-pressed="false" data-zh="熵正则化 OT" data-en="Entropic OT">熵正则化 OT</button>
           </div>
         </figcaption>
-        <p class="transport-note" id="plan-note" aria-live="polite"><span class="ordinary-note" data-zh="橙色方块完整地移向一个终点。" data-en="Follow the orange cube as it moves to a single destination.">橙色方块完整地移向一个终点。</span><span class="entropy-note" hidden data-zh="橙色方块分成 8 个等体积小块，近似展示 Sinkhorn 方案如何把质量分给多个终点。" data-en="Eight equal pieces of the orange cube show a particle approximation of how the Sinkhorn plan splits its mass across destinations.">橙色方块分成 8 个等体积小块，近似展示 Sinkhorn 方案如何把质量分给多个终点。</span></p>
+        <p class="transport-note" id="plan-note" aria-live="polite"><span class="ordinary-note" data-zh="每个方块完整地移向一个终点。" data-en="Each cube moves as a whole to one destination.">每个方块完整地移向一个终点。</span><span class="entropy-note" hidden data-zh="每个方块分成 8 个等体积小块，近似展示 Sinkhorn 方案如何把质量分给多个终点。" data-en="Each cube splits into eight equal pieces to approximate how the Sinkhorn plan distributes its mass across destinations.">每个方块分成 8 个等体积小块，近似展示 Sinkhorn 方案如何把质量分给多个终点。</span></p>
         <div class="transport-stage" aria-describedby="plan-note" data-scene="voxel-orbit" tabindex="0" role="group" aria-label="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-zh="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-en="3D name clouds. Use the arrow keys to rotate and Home to reset the view.">
           <canvas class="transport-field" role="img" aria-label="李泽和 LI ZE 各由四层立方块构成。蓝线连接每个粒子的起点和终点。" data-aria-zh="李泽和 LI ZE 各由四层立方块构成。蓝线连接每个粒子的起点和终点。" data-aria-en="Four layers of cubes form 李泽 and LI ZE. Blue lines connect each particle’s starting point to its destination.">李泽 → LI ZE</canvas>
         </div>
@@ -217,15 +214,14 @@
       // Rebuild from the same glyph geometry using tools/build_split_plan.py.
       const splitPlan = 'hwNFAMQD3AO8BsQClAAACFcGTQBVAKQCxAf8A6sAaAGXBz8AlQbtBHQAzAKcCbsAbwKfAl0J/QR1CfQDpADxB9cGHQolCvsCMwFSAWAEQAfOAAUHFAE8BBIDOQNoBMgBJgXuAA0E7AIDA0sBagEYAu4GNgUVAWQF/AJDAXkBqAHvBiUEPQEzA0kDWQOpASACFgTtAjUBYwGBBVEDaQPgAScINQREBCMDewFCA7kBwQHnAC0ELQFcAZEFcQS5BckBxwBdBF0BOgeaAbIB0QH5AS8FTQQ8A2QBgwGSBLoBAQL/ADYBHQNlAYsBUgfBClgCBwHmAl0KfAFzBJsBegMACx8BJQNkBJMBmwSzAQEGKQvnAg4DWwibBZMEygHqBTkCPgQeA20BbASUAXsD+gVRAg8EPgF1AUwDqwVzA+oBCQbvAmYKjQFlCLQB8wH7AUICBwM+A00DpQWkAeQFAwZKArcJXgGVBbwFrAHEAQMCMwsfBGYBRQNdA20DzAHjAVIC1wBmBJ0BpQH0BfwBDAI7AlcBjgVOA3UD3QUcBjQGKwJXBC8DXgNmA8UBBAYUAlMCBwd/AZYKfgi1AdUKHAJbAk8BZwSmAc4B5gUGBi0CXAI3BH8EtwWvCt4BFgYlAlQCPwOPAW8D3gX2AQ0CNQI9As8GnwWfBH4D7gEGAhYCVQJfCI8Epwr/BR8GPwY3AkcCRwFHB38DzwHvCg8CJwJXApcFXwO3AecF/wEXAi8CNwsXA4cBvwHfAfcBHwI/Al8CSQapBHgCGADQBLADMACwAkEGuQRpAhkAkQeAAigAoAZxB5EDYQIRAKkIsQMhAFAAkQiBA5kDAQBxBqEDmQIxAKIEmgNiAoIHogOCAikA+ARKBrIEegKyCMoEsgMiAIgAeweKAwIAmgdyBqoDmgL5CJIIswRqAgoAegaKAjoAcAC0BHQCHACjA7MDIwBAAGAAXAaUAwQAfAarAzsAyAPwA6QEvAQMAJwHrAMrAEgAmABsB2QCFABjBrQDLAA8AGgAhQMVAN0EtQNBAKECcQCICbUEDQDVBI0CLQDRA7kC+QN1B20CZQa9A50C6QSxAtECXgZ+AhYAhQKVAlEAYQCYCYYDDgAuAEIA8gR6CYkAmQBuB6YDtgOyB6oCugLZAlAFnggGAIYCNgCCBnIAyQLABlYGjgfGBD4AWgBiAOEDsQDXBDcAlAa0AgwFgwCUCdgABwBEAEwAvAJsAOwDiwCzAKcI7whcAKwCfAAUBZsAMAoXAN8EVAD8BGQArAaMAEABtwjNA2UA7QONALQA2QYAAUYAXgCtAn0AhQCsANkA8ACPAuYEzgOtBgUFnQDBBmgFdwdWAP4EbgAdBd0CyQA4AZ8GtgIOBYYA4wfSAEkFaANPAP8E/gOmAPsHOQhBBVAEJwCnAhYF1gK+APkG+QD4AlcA3wPXB/cDrgDaBjkFKAp/AIcACwjbAPIACQfpAogB7wR3Ca8AEwjiAFIFaQUAA+cEFwWfAMMA0wAaBykEOQHXA98HjwDLCfIGEgcSAVgB1wLUCeMJ8wASBOECWAp4BP8DDAjEAPsGAgchBDkEgAF3AKcAxAbjAAoEeQXiAiADtwKlCdQA8wb7ACkKMQERA28A1QDkAAsHEwH6AjIB8AHdCcUGPAgLBAsBIgFBAYgKtwDNADwF7AATBHoFOgFwAe8DFQjsCfQAUwXqAhkDSQHmBl0FJARLBAsDIQdYB8ABBwgFBHwFQwRbAWIBSAOgAeYAFQc0BCQBWwQyAykHqAVfAPYALAQ8ARMDIgN5CsgFBgQdARQDTAFBA6EFeAPYAc8A/QIlAVMBegGRAbgBEAL/Bg4BDANEAXMBgQpxA9AB5wYOBOUCVAFrAZkBeQP4ATcHlwGvAdcB/wo3Bi4CXgJvAacFZwPvBe8BBwI2AlYCNwN3CHcDxwHnAR4CPgJOAl8BnwqXBM8F9woPCy8GTwKFCGUCpQiEAvwIyQNhCdgCRQYFAB0AlAIpCcED0QeQAKUEdQJ9Bs0ENQATCakCyAKVCI0DnQetAz0ASQDhBKAAZwIvALQHowIDBdMCqgDgAF8GrwPkBMwD3AfLApMAsgB3At8INQmcBtQHtAbbArEJTwanAx8J1ANzABwFwwKjAK8HdgDOB54AwQDRAPEAGAP/CO4E7gOOCa0A6QkRByAEfwbGA74GlgC9AMIGCQQZBJ8DrgIGBfYDjgDKABEK8AIeAUUEbAEyB5IBigSxAVAC9wAuAUUBggWCAXIDqgE4Ah4H/gJNAXQBSgNiA6IBEAZWBW4FBQMsA1IDSgfZBfgKDwGeAV4HxgHuBRUGBgsmC98AfgSvBb4K1QEVAjUGPQsvBG8EtgWeBN4K/QEsAkwCXwR3BI4EtgH2BR4GPQYuC0sGiwMbAIsH2wTTCKAHuAJMBpwDEwBrBosC2wggCdgDVAasBHwCmweDAjMA4gj4A4wIhAMDALMIwwSbAhIJmAbHBD0JrAf0BGsA+wOMCegAlwO/A1UJywN7AAsFkgDoCYcHzwS8B4wGdAmkBooA2AZ/AocCSwDsBGMA4wPzA6IAxwPnA9sJ4gkqBQEEEQFYBE8JzwL0B9sGOgj6ABkBYAG/AmcAvwAbCOoGGQcBAfECpwfPB5cA/AfLAOoAUQVIBNYA9QZMBRsBIwRKBCkDkAHGBt4AHAoEBDsEWQRICCgH5wflCe0ADAHzAgoDIQOgBRYINQgMBwwEewVCBGkBMAf3BkYBMwdDA7IFowHxCjgLJwVVAX0BSwO6BcIF4gERBnYFVQo1A2MEowWrAfEFSAI3BTYEcwpbA5oKYwPaATECXgQ2A2UEnAFkA9sB+gEqBk8EfgFVA4UBhATzBesBQQL3By4DXQh1CHQDvAEaAiMLHwh2AU0IRQeUBLwKCgIqAicDlgVuCI0E1QX8BQsCWgL/AoYFjgqdBK0B7AUMBiMCVwUmB3YEZQO9AewBGwI7Bj8BTgiOAbUFfQPcARwLQwJwB6AEgAMAAHgGyASIAsgIQAZQBmACqAiAB9gEIAAACXkHqASYA3ACiAeoA5AC0AiZCFkGiAMIAJkHoAOYAlgAcgehBHECughpBoECwQgRCWoHugRyAqoIYQaJAtkIqAKaCFoGggMaAMkE2gQ5ALAHYgeqBJIDEgBqBpEC0QgwCY8ILQlTAKsCZAkTBboAGAR/Bw4JWwDbA3oAGwXSAggIrwiWAkQJhAa7AusDwgIQBL8E1wglCfMEswJ8CZoA8AfHB+UHzAA7BUoFGgT5AlAB3wLtBxwIIwUzBSEKIQEQA6cGhwncBisI6wAKASkBSAFHAP0HFAjcABIKQgVhBdAFpgkdCCQI/AADASIESQRACK8CDQj8BiQFEwcqBAkDWQGPBtUJxQAsBQMEMgoyBGADvgn+B/QJ7AZLBXIFUQQ4A8YAPghVBSwKSwpaBDgHUAfPCfYGFQQcBEMKGgNhAbAB3wnuCQ0KBQHrAloBcQG4CtcJLgVFBWwF5AI7AUEIWAP+AA0B9AIqA2kEiQGoCugFxwk1CgQDOgOJBYEBiAQYBh4KdQU0ARsDUQiYCnADCAL3CQYB9QJTBDEHeQShAegBLgpmBVwESghpCGED+AUYCwYHRQoNA5IFegSxBckFQAIeBCYBNAMqB4oBmQTpBfAKFgc+ChwDIgdaA5EE0QrxAX8KjwpGB3YD5QEFAi0GNQv3Ai8HrgXGBcYKDQYdCzQCZwGGAZcKbgPWCvUBFgtEAn8FVgOWAb4B3QHtAQ4LPAJPCE8DxwXfBQ8GJgY2BkUCjwVHA7cK1wrnChcGJwZGAicHVwOHBNYB/gEXCyYCXQI/B58BTwe/CvcFBwYfCz8LQwabAwsAwgS7AyoASAl4CWsHqwRzAnsGkwIyAJAGuACTCFMGYwKDB9MEwggZCeAEiwijBHsCkwfLBMoICQnQAk0GpAisCCQAAwmABsgH6AONCK0EtQiMAgsJqQfQA8ACVQaVA70I1ATMCBsJeACoAJ0InQOVB6QDNADsCLEHsAZuAsUEJQBSCZoGeQARBQgKlgO2CL4D7Qj5BHEJAQWRAIYIdgJ+BjIJSgDZA6EGqAmmBKYI3gQFCVoJ+gS5BrkAHgDuCIMG0wOjBuoDoQAoA4cIzwikB8MD0wfiA4IAqQlHBp4CTAmLBmwJuwbKAhAHjwPHCEMAkwb7BLMG2gI4CI8HXQC9AsUH1QK5CcgA+AAuCVYJtQK1Bg0F4QfQACgFvwg+CeUEdgkVBc0CyQngArcDpgeeBt0DvQbFAtEG6AaGBsYHpgaVANIG6QYIBxABlwKWBtYHzgLyB/kJ4QA4Cm8Gvwd+AMYCqwnKBgkKGAFOAKYCbwkeBesHygkBCiAK9wS2AAMIywYqCBkKMAToAocGjwm8CcIAMggiBXgFIAGXBrcGtAnTCfoJ4gY5CjADVwkPBccCwwnaAPoGCQEIAy8KJQd0BFwHuwHEChIGIgJWBAYDPQeVCrQF2wXzCjILTwVOBI0FhQqMBNQF+wobCx8HVgGdBU0HnATTAewKEgKuB74CtgalAMkG4QkhBXAELwneA+YDqgniB/EJ8QYoAV4J9gRmCZYJugkKCBAKcAU/CbYHrgbeAp4JAggpBUAEBgptBUwEWgh5CEkH4AUIBl4FJgRiCpoFiQqJBPAFCAsOChYBOwNyCpkKqQXRBSAG7wB9BSQDegpiBFkHuQoABjcITQqDBYoKogXZAeEBGQYuBPYCKwdTA0IHygX5CiECBwruAjsHggpyCIIE6QEpAhcBfgV7CmsEQweaBMkKOQY3AWUKhAFEB6wK6wULC1kCrwl1CpwFTAdsA8sBAgJJAncFRQiFBXQIpAXMCusKGgtHChYDNQd8CKwFxAXjBToGZwUuB5UBrQW1CvwKIwYzBkcFbQRtCHwDvQrkARMGLAtuAVYIdQSFBNQB7QobBisGFwpGCJ4KVQfcBc0KFAs6AncBbgSWBM0B7QUFBg0LJQtHCEYDVge2Cs4K5golBi0LTwqHBXYIzgX1Be4KFQtLAhcEPgdOB74F1gUdBgQCPAaGB9YIqwfrBMMHsgabCRAItwQGCVQJwgPLB9sHqQDgBqcEzgg0CeMEsgKrBosJMAivBPYIPAlcCcoDewnyA/gGZweNBsUDpQaNCfkHwAAwAR8ARQmlAm0AhACdCcEJSAX3CK0H9QTVB/UD1ALpBwgEdwYmCb0HfQndB4UJ2QnwBv8HLgg9BTwKIwECA2gKYAgOCP4J9QAdBzMEUgSIBZgEvwnmCf4GTQU0CisBWAiYARcINggFClwFdAVTClAIUAM/BCQHPAecCrsK2woCCyoLLwFtCpQFlAqzBdMFCgYKCycBfApUA4QKtArLBfIBMgbnCSYDVQhsCFQHwwHjCgMLmAh4B7gEEACQB8AE4AhQCYAIaAewBLAIYAZwBsAI6AiICEgGkANoArgIuAM4APAIkAhgB1gGoAiYB2gG2AgYBWEHaQcJAIEH0QSpA/gIwAeBCFEGeQKhCMEEyQgICRgJiQhSBrEEsQiJB9kE6QjoBIoIegeJA7kIeQa5A/EIEAmCCEIGogiKB7oD4QgoCYAAgwi7BGsCkgeSAtIIAQnQB5sIcweDA2IG0gTyCPoIuAdjB1sGkwO7CHMG2gg4CQAFlAhdBnQG3ATrCDEJoAK4BmQHbAKUB8QE4wghCXAJwAlEBowDZAbECNQIQQnAA9gHbQe9BLQIvAPzCDkJ8ASoBo4IdQbFCCoJoQdpCbEGmQlmB54HpQMiCbkHaQDZB7AAtgRmAt0I5QhZAIEGCQUoCEYGrgjWBP0ISgmRBsEHiQl2BiwJUgDaA3MJ+gOKCUAFlwgeCUMJowdjCQIFgQA4BY4DJgAWCZsGogIKBYMJyAlvB+YIJAm7B9IDogaTCfgJZwaFBnUAzAeECbwAGAgwBQ8ApQedBmUJ5AOhCcgGYAUHCTYJ1QPNB9wCnADwCVgFnwdNCbUHbQkEBZUJAQg4BE4JZgDlA7UAEQgxCCAFAARGCdYD3geiCfoHGQjhBggBJwm+B24JhgnqBwkIAAoYBxcJjgZ+Cf0DsgnRCSEIGArnCK8GwgnaCSkIMQVZBSgEDwl/CbsJGgjyCekAAQd4AV8JBwWzCdIJEggyBREESAo3CR8FownzB+oJIgg6BUAKnwnsB8MGIwjrBgoKAgFQCqQJrAnECdMGMwgKBwIE6ApnCeQHBAjUBuMGAgpaBTEEzwOtCdwJzAY7CCsFGgFxBbUJzAnzCeQGGgpDBSoBUQG9CfUH6wn0BgMKGwQxCkkKlwnNCeQJ+wkLCgMHIgpZCr8GxQndBjQINAUbB2IFAQPeCT0I5QBUBXMFMQNwCsAF7wcmCBUKBAFjBUIBeAqACsYJ3gb9BhwHJArjAkoBkATWCdYG/QANBxwBKwSABbgFxwZOBVsKcgE5B0gHgATgCvYJFgpECnEKYQRwCNgFMAbfBh0ELAFhClkIaAiwBTALLwg+BS0KTApJCGEIsArACj8FVAppCpkFQQehCsgKAAJGBT0EVARCCJEKgQTQCigCDgdlBVwKigVqBFEHwQU4Bj8IPQorA1IIcgRxCNgKKAbvCWoKQwhiCKoFwgHZCiALJgoVAyMHiwVaB6kK4QURAl8FVQRrCpIKeghqA/kFMAIPCDYKUwh7BGoIsQrhCigLTgpsCowFmwqDBNoFGgY5C1YKRAg0B2QIawPTCvoKIgs3CkYEXAiMCrMKywoCBiIGFwdOAVQIjAGkCsMF8gU6C1cKLQd9CK0K1ArkChMLMgJuCn0KnQqlCsUK+wULBjsLHwN+Co0KvQXMBdwKBAsrC18Kdgp9BF0HxQX0ChMCJAsnBIYKlQSuCuUF9QoMCzMCRwQ2B4YEpgr9BRQGLAY0Cz8KXghmCM0F9AHlCiQGJAJ3Cp4FpgWuAd0K/QoFCzwLDwNvCKcBxwr+Ch0CHgtNAmcKhwpfB9cF9goHCy4GNgtXCGcIVwffCuYBDgI+Bj4Lbwp/CL8Fzwr+BQ4GJwsvC74EjgKiB5IGYgkaBeAHAAdmBt4IOwmzB3IJqgaSCfgHnwhuBjMJUwlrCboGggnQCZ4DlgcdCVsJ4gTaBxIF0AbmBwYI5QYUByMKawVKCkADrgndAC0IDAorCkIKUgp4CLcHHgj9CRQKFAQzCloKIAenCc4G9QntBgQHOwryAqAKbwV0CoMKUwejCtIBCQsRCw8HLQOLCpMKqwrSCuoKIQYfCkwIfARjCIsEwwriChILJwpkCkQDawi7BdoK8goxBnwHqwjMBMMI6ghYCWgJ4AOECKMIjAfLCAIJQAmoBxAFnAh9ArwInAL7CBoJiAaQCXQHfQeEB2wG3AgKCWAJCAWuBK0I9AgMCUkJmQYZBYAJZQeNB+QIBAlRCfEEyQewCX4HbQbNCBQJOgmJBnkJwQJ2B4UH1Qj1CBwJWQmpBpEJzgQNCUIJugfKB/EDgQngCZYIFQkrCYoGagDpA+gH2Am+CMYIIwmqB+oE0gegCbgJTgauA/4ISwlqCcIHmgkgCLYJ1QYsCCUFRAVBCmAKEAv2B80G/AktBVsFKgpRCpAF7gcFCCUIBAoTCmoFQQSYBUcJzgntCTUFGwo6CjoEkAoHBGMKkwVbB6IKwgoJAiEL/wlLCIQFewiqCsoK6QopBkYKPQNcA3MIsgriBQELMQsPCl4KLAdLB7oK0gUZAhkL';
       const packed = atob(splitPlan);
-      const trackedVoxel = 31;
       function corner(center, slot) {
         return center.map((v,axis)=>v+((slot & (1<<axis)) ? .215 : -.215));
       }
-      const ordinary = pairing.map((j,i)=>({a:origin[i], b:target[j], tracked:i===trackedVoxel}));
+      const ordinary = pairing.map((j,i)=>({a:origin[i], b:target[j]}));
       const entropy = Array.from({length:packed.length/2},(_,k)=>{
         const end = packed.charCodeAt(2*k) + 256*packed.charCodeAt(2*k+1);
         const i = Math.floor(k/8), j = Math.floor(end/8);
-        return {a:corner(origin[i],k%8), b:corner(target[j],end%8), tracked:i===trackedVoxel};
+        return {a:corner(origin[i],k%8), b:corner(target[j],end%8)};
       });
       let mode='ordinary', projected=[];
       const hold = 1250, duration = 5300, period = hold+duration+1600;
@@ -278,11 +274,10 @@
         ];
         const data=getComputedStyle(figure);
         const get=name=>data.getPropertyValue(name).trim();
-        colors={grid:get('--grid'),ink:get('--blue'),tracer:get('--tracer')};
+        colors={grid:get('--grid'),ink:get('--blue')};
         const size=mode==='entropy'?.43:.86;
         sprites={
           moving:cubeSprite(size,[get('--cube-lit'),get('--cube-shade'),get('--cube-front')]),
-          tracked:cubeSprite(size,[get('--tracer-lit'),get('--tracer-shade'),colors.tracer]),
           source:cubeSprite(.78,[get('--ghost-lit'),get('--ghost-shade'),get('--ghost-front')]),
           target:cubeSprite(.78,[get('--end-lit'),get('--end-shade'),get('--end-front')])
         };
@@ -299,9 +294,9 @@
         anchors.sort((a,b)=>a[0][2]-b[0][2]);
         for(const [point,sprite] of anchors)stamp(back,sprite,point);
         // Orthographic projection commutes with interpolation. Project only when the view changes.
-        projected=(mode==='entropy'?entropy:ordinary).map(({a,b,tracked},id)=>{
+        projected=(mode==='entropy'?entropy:ordinary).map(({a,b},id)=>{
           const start=project(...a),end=project(...b);
-          return {id,a:start,dx:end[0]-start[0],dy:end[1]-start[1],dz:end[2]-start[2],point:[0,0,0],tracked};
+          return {id,a:start,dx:end[0]-start[0],dy:end[1]-start[1],dz:end[2]-start[2],point:[0,0,0]};
         });
         back.globalAlpha=mode==='entropy' ? .016 : .055;
         for(const {a,dx,dy} of projected)line(back,a,[a[0]+dx,a[1]+dy],colors.ink,.65);
@@ -318,9 +313,7 @@
           point[0]=a[0]+t*dx;point[1]=a[1]+t*dy;point[2]=a[2]+t*dz;
         }
         projected.sort((p,q)=>p.point[2]-q.point[2] || p.id-q.id);
-        for(const path of projected)if(!path.tracked)stamp(ctx,sprites.moving,path.point);
-        // Draw the tracer last so its split remains visible inside the cloud.
-        for(const path of projected)if(path.tracked)stamp(ctx,sprites.tracked,path.point);
+        for(const path of projected)stamp(ctx,sprites.moving,path.point);
         const percent=String(Math.round(100*t));
         if(slider.value!==percent)slider.value=percent;
         if(output.value!==percent+'%')output.value=percent+'%';
