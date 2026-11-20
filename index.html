@@ -40,7 +40,7 @@
     .education-item h3{grid-column:2;font-size:20px;font-weight:400;margin:0;line-height:1.65}.major{grid-column:2;font-size:18px}
     .contact-row dt{font-size:16px}.contact-row a{font-size:18px;font-weight:400}.contact-arrow{font-family:PixelBody,monospace}.footer{font-size:14px}
     @media(max-width:700px){body{font-size:18px}.chinese-name{font-size:30px}.intro-copy{font-size:18px}.section-title{font-size:24px}.education-item{grid-template-columns:82px minmax(0,1fr);gap:4px 12px;padding:16px 0 16px 18px}.education-item::before{top:26px;width:6px;height:6px}.degree{font-size:14px}.education-item h3{font-size:18px}.major{font-size:16px}.contact-row{grid-template-columns:80px minmax(0,1fr) 14px}.contact-row dt{font-size:14px}.contact-row a{font-size:16px}.footer{font-size:13px}}
-    .name-transport{--transport-arrow:var(--blue);margin:30px 0 0;max-width:880px}
+    .name-transport{margin:30px 0 0;max-width:880px}
     .transport-caption,.transport-tools{display:flex;align-items:center;gap:12px}
     .transport-caption{justify-content:space-between;flex-wrap:wrap;gap:0 14px;color:var(--ink);font-size:20px}
     .transport-modes{display:inline-flex;margin-block:4px;border:2px solid var(--border)}
@@ -75,11 +75,9 @@
     .transport-math{font:italic 18px Georgia,serif}
     .transport-time input{flex:1;width:100%;min-width:0;margin:0;accent-color:var(--blue)}
     .transport-tools output{min-width:4ch;text-align:right;color:var(--blue);font:14px/1.2 Consolas,monospace}
-    .transport-tracks{display:flex;align-items:center;gap:5px;white-space:nowrap;cursor:pointer}
-    .transport-tracks input{width:16px;height:16px;accent-color:var(--blue);margin:0}
     .transport-hint{margin:6px 0 0}
     .name-transport .coarse-pointer{display:none}
-    @media(pointer:coarse){.name-transport .fine-pointer{display:none}.name-transport .coarse-pointer{display:inline}.transport-time,.transport-tracks,.transport-play{min-height:44px}}
+    @media(pointer:coarse){.name-transport .fine-pointer{display:none}.name-transport .coarse-pointer{display:inline}.transport-time,.transport-play{min-height:44px}}
     @media(max-width:500px){.transport-caption{font-size:18px}.transport-method,.transport-hint{font-size:13px}.transport-tools{gap:7px;font-size:14px}.transport-play{min-width:47px;padding-inline:5px}.transport-tools output{font-size:12px}.transport-time{gap:4px}}
     @media print{.name-transport{display:none}}
   </style>
@@ -112,7 +110,7 @@
         </figcaption>
         <p class="transport-note" id="plan-note" aria-live="polite"><span class="ordinary-note" data-zh="橙色方块完整地移向一个终点。" data-en="Follow the orange cube as it moves to a single destination.">橙色方块完整地移向一个终点。</span><span class="entropy-note" hidden data-zh="橙色方块分成 8 个等体积小块，近似展示 Sinkhorn 方案如何把质量分给多个终点。" data-en="Eight equal pieces of the orange cube show a particle approximation of how the Sinkhorn plan splits its mass across destinations.">橙色方块分成 8 个等体积小块，近似展示 Sinkhorn 方案如何把质量分给多个终点。</span></p>
         <div class="transport-stage" aria-describedby="plan-note" data-scene="voxel-orbit" tabindex="0" role="group" aria-label="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-zh="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-en="3D name clouds. Use the arrow keys to rotate and Home to reset the view.">
-          <canvas class="transport-field" role="img" aria-label="李泽和 LI ZE 各由四层立方块构成，箭头指向每个方块的传输终点。" data-aria-zh="李泽和 LI ZE 各由四层立方块构成，箭头指向每个方块的传输终点。" data-aria-en="Four layers of cubes form 李泽 and LI ZE. Arrows point toward the destination of each cube.">李泽 → LI ZE</canvas>
+          <canvas class="transport-field" role="img" aria-label="李泽和 LI ZE 各由四层立方块构成。蓝线连接每个粒子的起点和终点。" data-aria-zh="李泽和 LI ZE 各由四层立方块构成。蓝线连接每个粒子的起点和终点。" data-aria-en="Four layers of cubes form 李泽 and LI ZE. Blue lines connect each particle’s starting point to its destination.">李泽 → LI ZE</canvas>
         </div>
         <div class="transport-tools">
           <button class="transport-play" type="button">
@@ -120,7 +118,6 @@
           </button>
           <label class="transport-time"><span class="transport-math" aria-hidden="true">t</span><input id="transport-time" type="range" min="0" max="100" value="0" aria-label="传输进度" data-aria-zh="传输进度" data-aria-en="Transport progress"></label>
           <output for="transport-time">0%</output>
-          <label class="transport-tracks"><input type="checkbox"><span data-zh="粒子轨迹" data-en="Particle paths">粒子轨迹</span></label>
         </div>
         <div class="transport-foot">
           <p class="transport-hint"><span class="fine-pointer" data-zh="鼠标横移定位进度 · 拖动旋转视角" data-en="Hover to scrub · Drag to rotate">鼠标横移定位进度 · 拖动旋转视角</span><span class="coarse-pointer" data-zh="拖动旋转视角 · 滑杆调节进度" data-en="Drag to rotate · Use the slider to scrub">拖动旋转视角 · 滑杆调节进度</span></p>
@@ -168,7 +165,7 @@
       if (!ctx) return;
       const stage = figure.querySelector('.transport-stage');
       const slider = figure.querySelector('#transport-time'), output = figure.querySelector('output');
-      const play = figure.querySelector('.transport-play'), paths = figure.querySelector('.transport-tracks input');
+      const play = figure.querySelector('.transport-play');
       const reset = figure.querySelector('.transport-reset');
       const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
       const chinese = [
@@ -270,21 +267,6 @@
         context.beginPath();context.moveTo(a[0],a[1]);context.lineTo(b[0],b[1]);
         context.strokeStyle=color; context.lineWidth=width; context.stroke();
       }
-      function trace(context,path,full) {
-        const {a,dx,dy}=path, length=Math.hypot(dx,dy);
-        if (length<1) return;
-        const at=.70, px=a[0]+at*dx,py=a[1]+at*dy;
-        const ux=dx/length,uy=dy/length,s=full?2.9:Math.max(3.4,Math.min(5.4,w/135));
-        const color=full?colors.ink:colors.tracer;
-        context.globalAlpha=full?(mode==='entropy'?.016:.055):.65;
-        line(context,a,[a[0]+dx,a[1]+dy],color,full?.65:1.25);
-        if(full){context.globalAlpha=1;return;}
-        context.globalAlpha=.95;
-        context.fillStyle=color;context.beginPath();context.moveTo(px+s*ux,py+s*uy);
-        context.lineTo(px-s*ux+.6*s*uy,py-s*uy-.6*s*ux);
-        context.lineTo(px-s*ux-.6*s*uy,py-s*uy+.6*s*ux);
-        context.closePath();context.fill();context.globalAlpha=1;
-      }
       function setScene() {
         if (!w || !h) return;
         basis={sy:Math.sin(yaw),cy:Math.cos(yaw),sp:Math.sin(pitch),cp:Math.cos(pitch)};
@@ -321,8 +303,9 @@
           const start=project(...a),end=project(...b);
           return {id,a:start,dx:end[0]-start[0],dy:end[1]-start[1],dz:end[2]-start[2],point:[0,0,0],tracked};
         });
-        if(paths.checked) for(const path of projected)trace(back,path,true);
-        for(const path of projected)if(path.tracked)trace(back,path,false);
+        back.globalAlpha=mode==='entropy' ? .016 : .055;
+        for(const {a,dx,dy} of projected)line(back,a,[a[0]+dx,a[1]+dy],colors.ink,.65);
+        back.globalAlpha=1;
         paint(true);
       }
       function paint(force=false) {
@@ -421,7 +404,6 @@
       });
       play.addEventListener('click',()=>{playing=!playing;syncPlayback();});
       slider.addEventListener('input',()=>{playing=false;syncPlayback();seek(Number(slider.value)/100);});
-      paths.addEventListener('change',setScene);
       reducedMotion.addEventListener('change',()=>{playing=!reducedMotion.matches;syncPlayback();});
       document.addEventListener('visibilitychange',syncPlayback);
       new MutationObserver(setScene).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
