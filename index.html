@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="李泽 Li Ze — 本科-郑州大学-金融数学，博士-北京邮电大学-数学。">
+  <meta name="description" content="李泽的个人主页。研究方向为数理统计与统计最优传输。">
   <meta name="theme-color" content="#eef1f5">
   <meta property="og:title" content="李泽 · Li Ze">
-  <meta property="og:description" content="Financial Mathematics · Mathematics | 郑州大学 · 北京邮电大学">
+  <meta property="og:description" content="Li Ze · Mathematical statistics and statistical optimal transport">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://lize66666.github.io/">
   <link rel="canonical" href="https://lize66666.github.io/">
@@ -43,11 +43,24 @@
     .name-transport{--transport-arrow:var(--blue);margin:30px 0 0;max-width:880px}
     .transport-caption,.transport-tools{display:flex;align-items:center;gap:12px}
     .transport-caption{justify-content:space-between;flex-wrap:wrap;gap:0 14px;color:var(--ink);font-size:20px}
+    .transport-modes{display:inline-flex;margin-block:4px;border:2px solid var(--border)}
+    .transport-modes button{background:transparent;color:var(--muted);border:0;padding:4px 11px;font-size:15px;line-height:1.5}
+    .transport-modes button+button{border-left:1px solid var(--border)}
+    .name-transport button{touch-action:manipulation}
+    .transport-modes button[aria-pressed=true]{background:var(--mint);color:#292735}
+    .transport-note{margin:5px 0;color:var(--muted);font-size:15px;line-height:1.5}
+    .transport-note::before{content:'';display:inline-block;width:8px;height:8px;background:var(--tracer);margin-right:7px}
+    .name-transport{--tracer:#aa480e;--tracer-lit:#ffd38b;--tracer-shade:#813106}
+    [data-theme=dark] .name-transport{--tracer:#ffae69;--tracer-lit:#ffe4ae;--tracer-shade:#cb6b36}
+    @media(pointer:coarse){.transport-modes button{min-height:44px}}
+    .research-entry{max-width:860px;padding:0 0 15px}
+    .research-entry h3{font-size:19px;font-weight:400;margin:0 0 3px}
+    .research-entry p{margin:0;font-size:17px;color:var(--muted)}
     .transport-method,.transport-hint{color:var(--muted);font-size:14px}
     .transport-stage{position:relative;cursor:grab;touch-action:none;user-select:none;margin:7px 0 0;border-block:1px dashed var(--shadow);background:radial-gradient(ellipse at 50% 100%,var(--wash),transparent 80%)}
     .transport-stage.orbiting{cursor:grabbing}
     .transport-stage:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-    .transport-field{display:block;width:100%;height:clamp(158px,27vw,265px)}
+    .transport-field{display:block;width:100%;height:clamp(158px,27vw,265px);pointer-events:none}
     .name-transport{--cube-front:#2869a6;--cube-lit:#87c5f1;--cube-shade:#194269;--ghost-front:#b4cce0;--ghost-lit:#d5e2ee;--ghost-shade:#829bb5;--end-front:#93c6b5;--end-lit:#c7e7d7;--end-shade:#66968b}
     [data-theme=dark] .name-transport{--cube-front:#8ec7f5;--cube-lit:#dfedff;--cube-shade:#4779a3;--ghost-front:#41546b;--ghost-lit:#576d83;--ghost-shade:#303e50;--end-front:#42695f;--end-lit:#638c7c;--end-shade:#344c48}
     .transport-reset{color:var(--muted);border:0;border-bottom:1px dashed var(--shadow);background:none;font:inherit;padding:2px 1px;white-space:nowrap}
@@ -76,14 +89,14 @@
   <header class="site-header"><div class="topbar shell">
     <a class="brand pixel" href="#main" aria-label="李泽 Li Ze"><span class="brand-mark" aria-hidden="true">L</span>LI ZE</a>
     <div class="tools">
-      <nav aria-label="主导航" data-aria-zh="主导航" data-aria-en="Main navigation"><a href="#about" data-zh="关于" data-en="ABOUT">关于</a><a href="#education" data-zh="教育" data-en="EDUCATION">教育</a><a href="#contact" data-zh="联系" data-en="CONTACT">联系</a></nav>
+      <nav aria-label="主导航" data-aria-zh="主导航" data-aria-en="Main navigation"><a href="#about" data-zh="关于" data-en="ABOUT">关于</a><a href="#research" data-zh="研究" data-en="RESEARCH">研究</a><a href="#education" data-zh="教育" data-en="EDUCATION">教育</a><a href="#contact" data-zh="联系" data-en="CONTACT">联系</a></nav>
       <div class="language" role="group" aria-label="语言 / Language"><button type="button" data-language="zh" aria-pressed="true" lang="zh-CN">中文</button><button type="button" data-language="en" aria-pressed="false" lang="en">EN</button></div>
       <button class="theme-toggle" type="button" aria-label="切换到深色模式" title="切换到深色模式" aria-pressed="false">
         <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6.25 6.25 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
         <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42m0-14.14-1.42 1.42M6.35 17.65l-1.42 1.42"/></svg>
       </button>
     </div>
-  </div><nav class="mobile-nav shell" aria-label="移动导航" data-aria-zh="移动导航" data-aria-en="Mobile navigation"><a href="#about" data-zh="关于" data-en="ABOUT">关于</a><a href="#education" data-zh="教育" data-en="EDUCATION">教育</a><a href="#contact" data-zh="联系" data-en="CONTACT">联系</a></nav></header>
+  </div><nav class="mobile-nav shell" aria-label="移动导航" data-aria-zh="移动导航" data-aria-en="Mobile navigation"><a href="#about" data-zh="关于" data-en="ABOUT">关于</a><a href="#research" data-zh="研究" data-en="RESEARCH">研究</a><a href="#education" data-zh="教育" data-en="EDUCATION">教育</a><a href="#contact" data-zh="联系" data-en="CONTACT">联系</a></nav></header>
   <main id="main" class="shell">
     <section class="intro" aria-labelledby="name"><p class="eyebrow pixel" data-zh="PERSONAL WEBSITE / 个人主页" data-en="PERSONAL WEBSITE">PERSONAL WEBSITE / 个人主页</p>
       <div class="name-line"><h1 id="name" class="pixel" lang="en">LI ZE</h1><span class="chinese-name" lang="zh-CN">李泽</span></div>
@@ -92,9 +105,13 @@
       <figure class="name-transport" aria-labelledby="transport-title">
         <figcaption class="transport-caption">
           <span id="transport-title" data-zh="名字的最优传输" data-en="A name in optimal transport">名字的最优传输</span>
-          <span class="transport-method" data-zh="三维 · 最小总平方距离" data-en="3D · minimum total squared distance">三维 · 最小总平方距离</span>
+          <div class="transport-modes" role="group" aria-label="传输模式" data-aria-zh="传输模式" data-aria-en="Transport mode">
+            <button type="button" data-mode="ordinary" aria-pressed="true" data-zh="普通 OT" data-en="Standard OT">普通 OT</button>
+            <button type="button" data-mode="entropy" aria-pressed="false" data-zh="熵正则化 OT" data-en="Entropic OT">熵正则化 OT</button>
+          </div>
         </figcaption>
-        <div class="transport-stage" data-scene="voxel-orbit" tabindex="0" role="group" aria-label="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-zh="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-en="3D name clouds. Use the arrow keys to rotate and Home to reset the view.">
+        <p class="transport-note" id="plan-note" aria-live="polite"><span class="ordinary-note" data-zh="橙色方块完整地移向一个终点。" data-en="Follow the orange cube as it moves to a single destination.">橙色方块完整地移向一个终点。</span><span class="entropy-note" hidden data-zh="橙色方块分成 8 个等体积小块，近似展示 Sinkhorn 方案如何把质量分给多个终点。" data-en="Eight equal pieces of the orange cube show a particle approximation of how the Sinkhorn plan splits its mass across destinations.">橙色方块分成 8 个等体积小块，近似展示 Sinkhorn 方案如何把质量分给多个终点。</span></p>
+        <div class="transport-stage" aria-describedby="plan-note" data-scene="voxel-orbit" tabindex="0" role="group" aria-label="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-zh="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-en="3D name clouds. Use the arrow keys to rotate and Home to reset the view.">
           <canvas class="transport-field" role="img" aria-label="李泽和 LI ZE 各由四层立方块构成，箭头指向每个方块的传输终点。" data-aria-zh="李泽和 LI ZE 各由四层立方块构成，箭头指向每个方块的传输终点。" data-aria-en="Four layers of cubes form 李泽 and LI ZE. Arrows point toward the destination of each cube.">李泽 → LI ZE</canvas>
         </div>
         <div class="transport-tools">
@@ -103,7 +120,7 @@
           </button>
           <label class="transport-time"><span class="transport-math" aria-hidden="true">t</span><input id="transport-time" type="range" min="0" max="100" value="0" aria-label="传输进度" data-aria-zh="传输进度" data-aria-en="Transport progress"></label>
           <output for="transport-time">0%</output>
-          <label class="transport-tracks"><input type="checkbox"><span data-zh="全部轨迹" data-en="All paths">全部轨迹</span></label>
+          <label class="transport-tracks"><input type="checkbox"><span data-zh="粒子轨迹" data-en="Particle paths">粒子轨迹</span></label>
         </div>
         <div class="transport-foot">
           <p class="transport-hint"><span class="fine-pointer" data-zh="鼠标横移定位进度 · 拖动旋转视角" data-en="Hover to scrub · Drag to rotate">鼠标横移定位进度 · 拖动旋转视角</span><span class="coarse-pointer" data-zh="拖动旋转视角 · 滑杆调节进度" data-en="Drag to rotate · Use the slider to scrub">拖动旋转视角 · 滑杆调节进度</span></p>
@@ -112,11 +129,22 @@
       </figure>
     </section>
     <section id="about" class="content-section" aria-labelledby="about-title"><h2 class="section-title"><span class="section-id" aria-hidden="true">01</span><span id="about-title" data-zh="关于我" data-en="ABOUT ME">关于我</span></h2><p class="about-content" data-zh="你好，我是李泽。本科就读于郑州大学金融数学专业，博士阶段就读于北京邮电大学数学专业。欢迎通过邮件与我联系。" data-en="Hello, I am Li Ze. My academic background spans undergraduate study in Financial Mathematics at Zhengzhou University and doctoral study in Mathematics at Beijing University of Posts and Telecommunications. You are welcome to contact me by email.">你好，我是李泽。本科就读于郑州大学金融数学专业，博士阶段就读于北京邮电大学数学专业。欢迎通过邮件与我联系。</p></section>
-    <section id="education" class="content-section" aria-labelledby="education-title"><h2 class="section-title"><span class="section-id" aria-hidden="true">02</span><span id="education-title" data-zh="教育经历" data-en="EDUCATION">教育经历</span></h2><ol class="education-grid">
+    <section id="research" class="content-section" aria-labelledby="research-title">
+      <h2 class="section-title"><span class="section-id" aria-hidden="true">02</span><span id="research-title" data-zh="研究与合作" data-en="RESEARCH &amp; COLLABORATION">研究与合作</span></h2>
+      <div class="research-entry">
+        <h3 data-zh="研究方向" data-en="Research interests">研究方向</h3>
+        <p data-zh="数理统计、统计最优传输" data-en="Mathematical statistics and statistical optimal transport">数理统计、统计最优传输</p>
+      </div>
+      <div class="research-entry">
+        <h3 data-zh="EDA大规模Pattern版图聚类算法研究" data-en="Clustering algorithms for large-scale layout patterns in EDA">EDA大规模Pattern版图聚类算法研究</h3>
+        <p data-zh="我曾参与北京邮电大学与华为技术有限公司海思半导体部门的这一合作项目。" data-en="I took part in this joint project between Beijing University of Posts and Telecommunications and the HiSilicon semiconductor division of Huawei Technologies Co., Ltd.">我曾参与北京邮电大学与华为技术有限公司海思半导体部门的这一合作项目。</p>
+      </div>
+    </section>
+    <section id="education" class="content-section" aria-labelledby="education-title"><h2 class="section-title"><span class="section-id" aria-hidden="true">03</span><span id="education-title" data-zh="教育经历" data-en="EDUCATION">教育经历</span></h2><ol class="education-grid">
       <li class="education-item"><p class="degree" data-zh="本科" data-en="UNDERGRADUATE">本科</p><h3 data-zh="郑州大学" data-en="Zhengzhou University">郑州大学</h3><p class="major" data-zh="金融数学" data-en="Financial Mathematics">金融数学</p></li>
       <li class="education-item"><p class="degree" data-zh="博士阶段" data-en="DOCTORAL STUDY">博士阶段</p><h3 data-zh="北京邮电大学" data-en="Beijing University of Posts and Telecommunications">北京邮电大学</h3><p class="major" data-zh="数学" data-en="Mathematics">数学</p></li>
     </ol></section>
-    <section id="contact" class="content-section" aria-labelledby="contact-title"><h2 class="section-title"><span class="section-id" aria-hidden="true">03</span><span id="contact-title" data-zh="联系" data-en="CONTACT">联系</span></h2><dl class="contact-list">
+    <section id="contact" class="content-section" aria-labelledby="contact-title"><h2 class="section-title"><span class="section-id" aria-hidden="true">04</span><span id="contact-title" data-zh="联系" data-en="CONTACT">联系</span></h2><dl class="contact-list">
       <div class="contact-row"><dt data-zh="学校邮箱" data-en="UNIVERSITY">学校邮箱</dt><dd><a href="mailto:li.ze@bupt.edu.cn">li.ze@bupt.edu.cn</a></dd><span class="contact-arrow" aria-hidden="true">↗</span></div>
       <div class="contact-row"><dt data-zh="个人邮箱" data-en="PERSONAL">个人邮箱</dt><dd><a href="mailto:lize.ddh@gmail.com">lize.ddh@gmail.com</a></dd><span class="contact-arrow" aria-hidden="true">↗</span></div>
       <div class="contact-row"><dt>GITHUB</dt><dd><a href="https://github.com/lize66666" target="_blank" rel="noopener noreferrer">lize66666</a></dd><span class="contact-arrow" aria-hidden="true">↗</span></div>
@@ -128,7 +156,7 @@
       const read=key=>{try{return localStorage.getItem(key)}catch{return null}},save=(key,value)=>{try{localStorage.setItem(key,value)}catch{}};
       const themeButton=document.querySelector('.theme-toggle');let language='zh';
       const updateThemeLabel=()=>{const dark=document.documentElement.dataset.theme==='dark';const label=language==='zh'?(dark?'切换到浅色模式':'切换到深色模式'):(dark?'Switch to light mode':'Switch to dark mode');themeButton.setAttribute('aria-label',label);themeButton.title=label;themeButton.setAttribute('aria-pressed',String(dark));};
-      const applyLanguage=value=>{language=value==='en'?'en':'zh';document.documentElement.lang=language==='zh'?'zh-CN':'en';document.querySelectorAll('[data-zh]').forEach(el=>el.innerHTML=el.dataset[language]);document.querySelectorAll('[data-aria-zh]').forEach(el=>el.setAttribute('aria-label',el.dataset[language==='zh'?'ariaZh':'ariaEn']));document.querySelectorAll('[data-language]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.language===language)));document.title=language==='zh'?'李泽 · Li Ze':'Li Ze · 李泽';document.querySelector('meta[name=description]').content=language==='zh'?'李泽的个人主页：本科-郑州大学-金融数学，博士-北京邮电大学-数学。教育经历与联系方式。':'Personal website of Li Ze. Financial Mathematics at Zhengzhou University; Mathematics at Beijing University of Posts and Telecommunications.';save('lize-language',language);updateThemeLabel();};
+      const applyLanguage=value=>{language=value==='en'?'en':'zh';document.documentElement.lang=language==='zh'?'zh-CN':'en';document.querySelectorAll('[data-zh]').forEach(el=>el.innerHTML=el.dataset[language]);document.querySelectorAll('[data-aria-zh]').forEach(el=>el.setAttribute('aria-label',el.dataset[language==='zh'?'ariaZh':'ariaEn']));document.querySelectorAll('[data-language]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.language===language)));document.title=language==='zh'?'李泽 · Li Ze':'Li Ze · 李泽';document.querySelector('meta[name=description]').content=language==='zh'?'李泽的个人主页。研究方向为数理统计与统计最优传输。':'Personal website of Li Ze. Research interests include mathematical statistics and statistical optimal transport.';save('lize-language',language);updateThemeLabel();};
       const query=new URLSearchParams(location.search).get('lang');applyLanguage(['zh','en'].includes(query)?query:read('lize-language')||'zh');document.querySelectorAll('[data-language]').forEach(el=>el.addEventListener('click',()=>applyLanguage(el.dataset.language)));
       const applyTheme=theme=>{document.documentElement.dataset.theme=theme==='dark'?'dark':'light';document.querySelector('meta[name=theme-color]').content=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();updateThemeLabel();};
       const preference=window.matchMedia('(prefers-color-scheme: dark)');applyTheme(read('lize-theme')||(preference.matches?'dark':'light'));themeButton.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';save('lize-theme',next);applyTheme(next)});preference.addEventListener('change',event=>{if(!read('lize-theme'))applyTheme(event.matches?'dark':'light')});document.getElementById('year').textContent=new Date().getFullYear();
@@ -188,8 +216,21 @@
         268,269,342,339,348,349,346,347,352,353,354,355,356,357,358,359,296,297,298,299,320,321,322,323,
         340,345,337,343,284,276,277,278,292,289,290,291,300,301,302,303,324,316,317,318,344,336,341,338
       ];
-      const destination = pairing.map(j=>target[j]);
-      const featured = [9,63,122,197,267,337];
+      // Balanced eight-particle rendering of the dense Sinkhorn coupling.
+      // Rebuild from the same glyph geometry using tools/build_split_plan.py.
+      const splitPlan = 'hwNFAMQD3AO8BsQClAAACFcGTQBVAKQCxAf8A6sAaAGXBz8AlQbtBHQAzAKcCbsAbwKfAl0J/QR1CfQDpADxB9cGHQolCvsCMwFSAWAEQAfOAAUHFAE8BBIDOQNoBMgBJgXuAA0E7AIDA0sBagEYAu4GNgUVAWQF/AJDAXkBqAHvBiUEPQEzA0kDWQOpASACFgTtAjUBYwGBBVEDaQPgAScINQREBCMDewFCA7kBwQHnAC0ELQFcAZEFcQS5BckBxwBdBF0BOgeaAbIB0QH5AS8FTQQ8A2QBgwGSBLoBAQL/ADYBHQNlAYsBUgfBClgCBwHmAl0KfAFzBJsBegMACx8BJQNkBJMBmwSzAQEGKQvnAg4DWwibBZMEygHqBTkCPgQeA20BbASUAXsD+gVRAg8EPgF1AUwDqwVzA+oBCQbvAmYKjQFlCLQB8wH7AUICBwM+A00DpQWkAeQFAwZKArcJXgGVBbwFrAHEAQMCMwsfBGYBRQNdA20DzAHjAVIC1wBmBJ0BpQH0BfwBDAI7AlcBjgVOA3UD3QUcBjQGKwJXBC8DXgNmA8UBBAYUAlMCBwd/AZYKfgi1AdUKHAJbAk8BZwSmAc4B5gUGBi0CXAI3BH8EtwWvCt4BFgYlAlQCPwOPAW8D3gX2AQ0CNQI9As8GnwWfBH4D7gEGAhYCVQJfCI8Epwr/BR8GPwY3AkcCRwFHB38DzwHvCg8CJwJXApcFXwO3AecF/wEXAi8CNwsXA4cBvwHfAfcBHwI/Al8CSQapBHgCGADQBLADMACwAkEGuQRpAhkAkQeAAigAoAZxB5EDYQIRAKkIsQMhAFAAkQiBA5kDAQBxBqEDmQIxAKIEmgNiAoIHogOCAikA+ARKBrIEegKyCMoEsgMiAIgAeweKAwIAmgdyBqoDmgL5CJIIswRqAgoAegaKAjoAcAC0BHQCHACjA7MDIwBAAGAAXAaUAwQAfAarAzsAyAPwA6QEvAQMAJwHrAMrAEgAmABsB2QCFABjBrQDLAA8AGgAhQMVAN0EtQNBAKECcQCICbUEDQDVBI0CLQDRA7kC+QN1B20CZQa9A50C6QSxAtECXgZ+AhYAhQKVAlEAYQCYCYYDDgAuAEIA8gR6CYkAmQBuB6YDtgOyB6oCugLZAlAFnggGAIYCNgCCBnIAyQLABlYGjgfGBD4AWgBiAOEDsQDXBDcAlAa0AgwFgwCUCdgABwBEAEwAvAJsAOwDiwCzAKcI7whcAKwCfAAUBZsAMAoXAN8EVAD8BGQArAaMAEABtwjNA2UA7QONALQA2QYAAUYAXgCtAn0AhQCsANkA8ACPAuYEzgOtBgUFnQDBBmgFdwdWAP4EbgAdBd0CyQA4AZ8GtgIOBYYA4wfSAEkFaANPAP8E/gOmAPsHOQhBBVAEJwCnAhYF1gK+APkG+QD4AlcA3wPXB/cDrgDaBjkFKAp/AIcACwjbAPIACQfpAogB7wR3Ca8AEwjiAFIFaQUAA+cEFwWfAMMA0wAaBykEOQHXA98HjwDLCfIGEgcSAVgB1wLUCeMJ8wASBOECWAp4BP8DDAjEAPsGAgchBDkEgAF3AKcAxAbjAAoEeQXiAiADtwKlCdQA8wb7ACkKMQERA28A1QDkAAsHEwH6AjIB8AHdCcUGPAgLBAsBIgFBAYgKtwDNADwF7AATBHoFOgFwAe8DFQjsCfQAUwXqAhkDSQHmBl0FJARLBAsDIQdYB8ABBwgFBHwFQwRbAWIBSAOgAeYAFQc0BCQBWwQyAykHqAVfAPYALAQ8ARMDIgN5CsgFBgQdARQDTAFBA6EFeAPYAc8A/QIlAVMBegGRAbgBEAL/Bg4BDANEAXMBgQpxA9AB5wYOBOUCVAFrAZkBeQP4ATcHlwGvAdcB/wo3Bi4CXgJvAacFZwPvBe8BBwI2AlYCNwN3CHcDxwHnAR4CPgJOAl8BnwqXBM8F9woPCy8GTwKFCGUCpQiEAvwIyQNhCdgCRQYFAB0AlAIpCcED0QeQAKUEdQJ9Bs0ENQATCakCyAKVCI0DnQetAz0ASQDhBKAAZwIvALQHowIDBdMCqgDgAF8GrwPkBMwD3AfLApMAsgB3At8INQmcBtQHtAbbArEJTwanAx8J1ANzABwFwwKjAK8HdgDOB54AwQDRAPEAGAP/CO4E7gOOCa0A6QkRByAEfwbGA74GlgC9AMIGCQQZBJ8DrgIGBfYDjgDKABEK8AIeAUUEbAEyB5IBigSxAVAC9wAuAUUBggWCAXIDqgE4Ah4H/gJNAXQBSgNiA6IBEAZWBW4FBQMsA1IDSgfZBfgKDwGeAV4HxgHuBRUGBgsmC98AfgSvBb4K1QEVAjUGPQsvBG8EtgWeBN4K/QEsAkwCXwR3BI4EtgH2BR4GPQYuC0sGiwMbAIsH2wTTCKAHuAJMBpwDEwBrBosC2wggCdgDVAasBHwCmweDAjMA4gj4A4wIhAMDALMIwwSbAhIJmAbHBD0JrAf0BGsA+wOMCegAlwO/A1UJywN7AAsFkgDoCYcHzwS8B4wGdAmkBooA2AZ/AocCSwDsBGMA4wPzA6IAxwPnA9sJ4gkqBQEEEQFYBE8JzwL0B9sGOgj6ABkBYAG/AmcAvwAbCOoGGQcBAfECpwfPB5cA/AfLAOoAUQVIBNYA9QZMBRsBIwRKBCkDkAHGBt4AHAoEBDsEWQRICCgH5wflCe0ADAHzAgoDIQOgBRYINQgMBwwEewVCBGkBMAf3BkYBMwdDA7IFowHxCjgLJwVVAX0BSwO6BcIF4gERBnYFVQo1A2MEowWrAfEFSAI3BTYEcwpbA5oKYwPaATECXgQ2A2UEnAFkA9sB+gEqBk8EfgFVA4UBhATzBesBQQL3By4DXQh1CHQDvAEaAiMLHwh2AU0IRQeUBLwKCgIqAicDlgVuCI0E1QX8BQsCWgL/AoYFjgqdBK0B7AUMBiMCVwUmB3YEZQO9AewBGwI7Bj8BTgiOAbUFfQPcARwLQwJwB6AEgAMAAHgGyASIAsgIQAZQBmACqAiAB9gEIAAACXkHqASYA3ACiAeoA5AC0AiZCFkGiAMIAJkHoAOYAlgAcgehBHECughpBoECwQgRCWoHugRyAqoIYQaJAtkIqAKaCFoGggMaAMkE2gQ5ALAHYgeqBJIDEgBqBpEC0QgwCY8ILQlTAKsCZAkTBboAGAR/Bw4JWwDbA3oAGwXSAggIrwiWAkQJhAa7AusDwgIQBL8E1wglCfMEswJ8CZoA8AfHB+UHzAA7BUoFGgT5AlAB3wLtBxwIIwUzBSEKIQEQA6cGhwncBisI6wAKASkBSAFHAP0HFAjcABIKQgVhBdAFpgkdCCQI/AADASIESQRACK8CDQj8BiQFEwcqBAkDWQGPBtUJxQAsBQMEMgoyBGADvgn+B/QJ7AZLBXIFUQQ4A8YAPghVBSwKSwpaBDgHUAfPCfYGFQQcBEMKGgNhAbAB3wnuCQ0KBQHrAloBcQG4CtcJLgVFBWwF5AI7AUEIWAP+AA0B9AIqA2kEiQGoCugFxwk1CgQDOgOJBYEBiAQYBh4KdQU0ARsDUQiYCnADCAL3CQYB9QJTBDEHeQShAegBLgpmBVwESghpCGED+AUYCwYHRQoNA5IFegSxBckFQAIeBCYBNAMqB4oBmQTpBfAKFgc+ChwDIgdaA5EE0QrxAX8KjwpGB3YD5QEFAi0GNQv3Ai8HrgXGBcYKDQYdCzQCZwGGAZcKbgPWCvUBFgtEAn8FVgOWAb4B3QHtAQ4LPAJPCE8DxwXfBQ8GJgY2BkUCjwVHA7cK1wrnChcGJwZGAicHVwOHBNYB/gEXCyYCXQI/B58BTwe/CvcFBwYfCz8LQwabAwsAwgS7AyoASAl4CWsHqwRzAnsGkwIyAJAGuACTCFMGYwKDB9MEwggZCeAEiwijBHsCkwfLBMoICQnQAk0GpAisCCQAAwmABsgH6AONCK0EtQiMAgsJqQfQA8ACVQaVA70I1ATMCBsJeACoAJ0InQOVB6QDNADsCLEHsAZuAsUEJQBSCZoGeQARBQgKlgO2CL4D7Qj5BHEJAQWRAIYIdgJ+BjIJSgDZA6EGqAmmBKYI3gQFCVoJ+gS5BrkAHgDuCIMG0wOjBuoDoQAoA4cIzwikB8MD0wfiA4IAqQlHBp4CTAmLBmwJuwbKAhAHjwPHCEMAkwb7BLMG2gI4CI8HXQC9AsUH1QK5CcgA+AAuCVYJtQK1Bg0F4QfQACgFvwg+CeUEdgkVBc0CyQngArcDpgeeBt0DvQbFAtEG6AaGBsYHpgaVANIG6QYIBxABlwKWBtYHzgLyB/kJ4QA4Cm8Gvwd+AMYCqwnKBgkKGAFOAKYCbwkeBesHygkBCiAK9wS2AAMIywYqCBkKMAToAocGjwm8CcIAMggiBXgFIAGXBrcGtAnTCfoJ4gY5CjADVwkPBccCwwnaAPoGCQEIAy8KJQd0BFwHuwHEChIGIgJWBAYDPQeVCrQF2wXzCjILTwVOBI0FhQqMBNQF+wobCx8HVgGdBU0HnATTAewKEgKuB74CtgalAMkG4QkhBXAELwneA+YDqgniB/EJ8QYoAV4J9gRmCZYJugkKCBAKcAU/CbYHrgbeAp4JAggpBUAEBgptBUwEWgh5CEkH4AUIBl4FJgRiCpoFiQqJBPAFCAsOChYBOwNyCpkKqQXRBSAG7wB9BSQDegpiBFkHuQoABjcITQqDBYoKogXZAeEBGQYuBPYCKwdTA0IHygX5CiECBwruAjsHggpyCIIE6QEpAhcBfgV7CmsEQweaBMkKOQY3AWUKhAFEB6wK6wULC1kCrwl1CpwFTAdsA8sBAgJJAncFRQiFBXQIpAXMCusKGgtHChYDNQd8CKwFxAXjBToGZwUuB5UBrQW1CvwKIwYzBkcFbQRtCHwDvQrkARMGLAtuAVYIdQSFBNQB7QobBisGFwpGCJ4KVQfcBc0KFAs6AncBbgSWBM0B7QUFBg0LJQtHCEYDVge2Cs4K5golBi0LTwqHBXYIzgX1Be4KFQtLAhcEPgdOB74F1gUdBgQCPAaGB9YIqwfrBMMHsgabCRAItwQGCVQJwgPLB9sHqQDgBqcEzgg0CeMEsgKrBosJMAivBPYIPAlcCcoDewnyA/gGZweNBsUDpQaNCfkHwAAwAR8ARQmlAm0AhACdCcEJSAX3CK0H9QTVB/UD1ALpBwgEdwYmCb0HfQndB4UJ2QnwBv8HLgg9BTwKIwECA2gKYAgOCP4J9QAdBzMEUgSIBZgEvwnmCf4GTQU0CisBWAiYARcINggFClwFdAVTClAIUAM/BCQHPAecCrsK2woCCyoLLwFtCpQFlAqzBdMFCgYKCycBfApUA4QKtArLBfIBMgbnCSYDVQhsCFQHwwHjCgMLmAh4B7gEEACQB8AE4AhQCYAIaAewBLAIYAZwBsAI6AiICEgGkANoArgIuAM4APAIkAhgB1gGoAiYB2gG2AgYBWEHaQcJAIEH0QSpA/gIwAeBCFEGeQKhCMEEyQgICRgJiQhSBrEEsQiJB9kE6QjoBIoIegeJA7kIeQa5A/EIEAmCCEIGogiKB7oD4QgoCYAAgwi7BGsCkgeSAtIIAQnQB5sIcweDA2IG0gTyCPoIuAdjB1sGkwO7CHMG2gg4CQAFlAhdBnQG3ATrCDEJoAK4BmQHbAKUB8QE4wghCXAJwAlEBowDZAbECNQIQQnAA9gHbQe9BLQIvAPzCDkJ8ASoBo4IdQbFCCoJoQdpCbEGmQlmB54HpQMiCbkHaQDZB7AAtgRmAt0I5QhZAIEGCQUoCEYGrgjWBP0ISgmRBsEHiQl2BiwJUgDaA3MJ+gOKCUAFlwgeCUMJowdjCQIFgQA4BY4DJgAWCZsGogIKBYMJyAlvB+YIJAm7B9IDogaTCfgJZwaFBnUAzAeECbwAGAgwBQ8ApQedBmUJ5AOhCcgGYAUHCTYJ1QPNB9wCnADwCVgFnwdNCbUHbQkEBZUJAQg4BE4JZgDlA7UAEQgxCCAFAARGCdYD3geiCfoHGQjhBggBJwm+B24JhgnqBwkIAAoYBxcJjgZ+Cf0DsgnRCSEIGArnCK8GwgnaCSkIMQVZBSgEDwl/CbsJGgjyCekAAQd4AV8JBwWzCdIJEggyBREESAo3CR8FownzB+oJIgg6BUAKnwnsB8MGIwjrBgoKAgFQCqQJrAnECdMGMwgKBwIE6ApnCeQHBAjUBuMGAgpaBTEEzwOtCdwJzAY7CCsFGgFxBbUJzAnzCeQGGgpDBSoBUQG9CfUH6wn0BgMKGwQxCkkKlwnNCeQJ+wkLCgMHIgpZCr8GxQndBjQINAUbB2IFAQPeCT0I5QBUBXMFMQNwCsAF7wcmCBUKBAFjBUIBeAqACsYJ3gb9BhwHJArjAkoBkATWCdYG/QANBxwBKwSABbgFxwZOBVsKcgE5B0gHgATgCvYJFgpECnEKYQRwCNgFMAbfBh0ELAFhClkIaAiwBTALLwg+BS0KTApJCGEIsArACj8FVAppCpkFQQehCsgKAAJGBT0EVARCCJEKgQTQCigCDgdlBVwKigVqBFEHwQU4Bj8IPQorA1IIcgRxCNgKKAbvCWoKQwhiCKoFwgHZCiALJgoVAyMHiwVaB6kK4QURAl8FVQRrCpIKeghqA/kFMAIPCDYKUwh7BGoIsQrhCigLTgpsCowFmwqDBNoFGgY5C1YKRAg0B2QIawPTCvoKIgs3CkYEXAiMCrMKywoCBiIGFwdOAVQIjAGkCsMF8gU6C1cKLQd9CK0K1ArkChMLMgJuCn0KnQqlCsUK+wULBjsLHwN+Co0KvQXMBdwKBAsrC18Kdgp9BF0HxQX0ChMCJAsnBIYKlQSuCuUF9QoMCzMCRwQ2B4YEpgr9BRQGLAY0Cz8KXghmCM0F9AHlCiQGJAJ3Cp4FpgWuAd0K/QoFCzwLDwNvCKcBxwr+Ch0CHgtNAmcKhwpfB9cF9goHCy4GNgtXCGcIVwffCuYBDgI+Bj4Lbwp/CL8Fzwr+BQ4GJwsvC74EjgKiB5IGYgkaBeAHAAdmBt4IOwmzB3IJqgaSCfgHnwhuBjMJUwlrCboGggnQCZ4DlgcdCVsJ4gTaBxIF0AbmBwYI5QYUByMKawVKCkADrgndAC0IDAorCkIKUgp4CLcHHgj9CRQKFAQzCloKIAenCc4G9QntBgQHOwryAqAKbwV0CoMKUwejCtIBCQsRCw8HLQOLCpMKqwrSCuoKIQYfCkwIfARjCIsEwwriChILJwpkCkQDawi7BdoK8goxBnwHqwjMBMMI6ghYCWgJ4AOECKMIjAfLCAIJQAmoBxAFnAh9ArwInAL7CBoJiAaQCXQHfQeEB2wG3AgKCWAJCAWuBK0I9AgMCUkJmQYZBYAJZQeNB+QIBAlRCfEEyQewCX4HbQbNCBQJOgmJBnkJwQJ2B4UH1Qj1CBwJWQmpBpEJzgQNCUIJugfKB/EDgQngCZYIFQkrCYoGagDpA+gH2Am+CMYIIwmqB+oE0gegCbgJTgauA/4ISwlqCcIHmgkgCLYJ1QYsCCUFRAVBCmAKEAv2B80G/AktBVsFKgpRCpAF7gcFCCUIBAoTCmoFQQSYBUcJzgntCTUFGwo6CjoEkAoHBGMKkwVbB6IKwgoJAiEL/wlLCIQFewiqCsoK6QopBkYKPQNcA3MIsgriBQELMQsPCl4KLAdLB7oK0gUZAhkL';
+      const packed = atob(splitPlan);
+      const trackedVoxel = 31;
+      function corner(center, slot) {
+        return center.map((v,axis)=>v+((slot & (1<<axis)) ? .215 : -.215));
+      }
+      const ordinary = pairing.map((j,i)=>({a:origin[i], b:target[j], tracked:i===trackedVoxel}));
+      const entropy = Array.from({length:packed.length/2},(_,k)=>{
+        const end = packed.charCodeAt(2*k) + 256*packed.charCodeAt(2*k+1);
+        const i = Math.floor(k/8), j = Math.floor(end/8);
+        return {a:corner(origin[i],k%8), b:corner(target[j],end%8), tracked:i===trackedVoxel};
+      });
+      let mode='ordinary', projected=[];
       const hold = 1250, duration = 5300, period = hold+duration+1600;
       const homeYaw=.27, homePitch=.235;
       let yaw=homeYaw, pitch=homePitch, time=0, last=null, frame=0;
@@ -229,16 +270,17 @@
         context.beginPath();context.moveTo(a[0],a[1]);context.lineTo(b[0],b[1]);
         context.strokeStyle=color; context.lineWidth=width; context.stroke();
       }
-      function trace(context,i,full) {
-        const a=project(...origin[i]), b=project(...destination[i]);
-        const dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy);
+      function trace(context,path,full) {
+        const {a,dx,dy}=path, length=Math.hypot(dx,dy);
         if (length<1) return;
-        const at=.35+(i%17)/45, px=a[0]+at*dx,py=a[1]+at*dy;
+        const at=.70, px=a[0]+at*dx,py=a[1]+at*dy;
         const ux=dx/length,uy=dy/length,s=full?2.9:Math.max(3.4,Math.min(5.4,w/135));
-        context.globalAlpha=full?.045:.36;
-        line(context,a,b,colors.ink,full?.65:1);
-        context.globalAlpha=full?.23:.88;
-        context.fillStyle=colors.ink;context.beginPath();context.moveTo(px+s*ux,py+s*uy);
+        const color=full?colors.ink:colors.tracer;
+        context.globalAlpha=full?(mode==='entropy'?.016:.055):.65;
+        line(context,a,[a[0]+dx,a[1]+dy],color,full?.65:1.25);
+        if(full){context.globalAlpha=1;return;}
+        context.globalAlpha=.95;
+        context.fillStyle=color;context.beginPath();context.moveTo(px+s*ux,py+s*uy);
         context.lineTo(px-s*ux+.6*s*uy,py-s*uy-.6*s*ux);
         context.lineTo(px-s*ux-.6*s*uy,py-s*uy+.6*s*ux);
         context.closePath();context.fill();context.globalAlpha=1;
@@ -254,9 +296,11 @@
         ];
         const data=getComputedStyle(figure);
         const get=name=>data.getPropertyValue(name).trim();
-        colors={grid:get('--grid'),ink:get('--blue'),edge:get('--shadow')};
+        colors={grid:get('--grid'),ink:get('--blue'),tracer:get('--tracer')};
+        const size=mode==='entropy'?.43:.86;
         sprites={
-          moving:cubeSprite(.86,[get('--cube-lit'),get('--cube-shade'),get('--cube-front')]),
+          moving:cubeSprite(size,[get('--cube-lit'),get('--cube-shade'),get('--cube-front')]),
+          tracked:cubeSprite(size,[get('--tracer-lit'),get('--tracer-shade'),colors.tracer]),
           source:cubeSprite(.78,[get('--ghost-lit'),get('--ghost-shade'),get('--ghost-front')]),
           target:cubeSprite(.78,[get('--end-lit'),get('--end-shade'),get('--end-front')])
         };
@@ -272,8 +316,13 @@
         }
         anchors.sort((a,b)=>a[0][2]-b[0][2]);
         for(const [point,sprite] of anchors)stamp(back,sprite,point);
-        if(paths.checked) for(let i=0;i<origin.length;i++)trace(back,i,true);
-        for(const i of featured) trace(back,i,false);
+        // Orthographic projection commutes with interpolation. Project only when the view changes.
+        projected=(mode==='entropy'?entropy:ordinary).map(({a,b,tracked},id)=>{
+          const start=project(...a),end=project(...b);
+          return {id,a:start,dx:end[0]-start[0],dy:end[1]-start[1],dz:end[2]-start[2],point:[0,0,0],tracked};
+        });
+        if(paths.checked) for(const path of projected)trace(back,path,true);
+        for(const path of projected)if(path.tracked)trace(back,path,false);
         paint(true);
       }
       function paint(force=false) {
@@ -282,11 +331,13 @@
         if(t===progressDrawn&&!force)return;
         progressDrawn=t;
         ctx.clearRect(0,0,w,h);ctx.drawImage(background,0,0,w,h);
-        const points=origin.map(([x,y,z],i)=>{
-          const b=destination[i];
-          return project(x+(b[0]-x)*t,y+(b[1]-y)*t,z+(b[2]-z)*t);
-        }).sort((a,b)=>a[2]-b[2]);
-        for(const p of points)stamp(ctx,sprites.moving,p);
+        for(const {a,dx,dy,dz,point} of projected){
+          point[0]=a[0]+t*dx;point[1]=a[1]+t*dy;point[2]=a[2]+t*dz;
+        }
+        projected.sort((p,q)=>p.point[2]-q.point[2] || p.id-q.id);
+        for(const path of projected)if(!path.tracked)stamp(ctx,sprites.moving,path.point);
+        // Draw the tracer last so its split remains visible inside the cloud.
+        for(const path of projected)if(path.tracked)stamp(ctx,sprites.tracked,path.point);
         const percent=String(Math.round(100*t));
         if(slider.value!==percent)slider.value=percent;
         if(output.value!==percent+'%')output.value=percent+'%';
@@ -327,6 +378,8 @@
         fitView();
       }
       function resetView(){yaw=homeYaw;pitch=homePitch;fitView();}
+      // A touch drag on the scene is an orbit. Suppress its emulated mouse gesture.
+      stage.addEventListener('touchstart',e=>{if(e.cancelable)e.preventDefault();},{passive:false});
       stage.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch'&&!drag)hoverAt(e)});
       stage.addEventListener('pointerdown',e=>{
         if(!e.isPrimary||e.button!==0)return;
@@ -357,6 +410,15 @@
         else if(e.key==='Home'){e.preventDefault();resetView();}
       });
       reset.addEventListener('click',resetView);
+      const modeButtons=figure.querySelectorAll('[data-mode]');
+      for(const button of modeButtons)button.addEventListener('click',()=>{
+        if(mode===button.dataset.mode)return;
+        mode=button.dataset.mode;
+        for(const option of modeButtons)option.setAttribute('aria-pressed',String(option===button));
+        figure.querySelector('.ordinary-note').hidden=mode!=='ordinary';
+        figure.querySelector('.entropy-note').hidden=mode!=='entropy';
+        setScene();
+      });
       play.addEventListener('click',()=>{playing=!playing;syncPlayback();});
       slider.addEventListener('input',()=>{playing=false;syncPlayback();seek(Number(slider.value)/100);});
       paths.addEventListener('change',setScene);
