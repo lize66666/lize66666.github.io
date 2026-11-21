@@ -65,6 +65,8 @@
     .transport-field{display:block;width:100%;height:clamp(158px,27vw,265px);pointer-events:none}
     .name-transport{--cube-front:#2869a6;--cube-lit:#87c5f1;--cube-shade:#194269;--ghost-front:#b4cce0;--ghost-lit:#d5e2ee;--ghost-shade:#829bb5;--end-front:#93c6b5;--end-lit:#c7e7d7;--end-shade:#66968b}
     [data-theme=dark] .name-transport{--cube-front:#8ec7f5;--cube-lit:#dfedff;--cube-shade:#4779a3;--ghost-front:#41546b;--ghost-lit:#576d83;--ghost-shade:#303e50;--end-front:#42695f;--end-lit:#638c7c;--end-shade:#344c48}
+    .name-transport{--arrival-front:#338465;--arrival-lit:#9dddbb;--arrival-shade:#235846}
+    [data-theme=dark] .name-transport{--arrival-front:#87d9ad;--arrival-lit:#d9fae4;--arrival-shade:#428369}
     .transport-reset{color:var(--muted);border:0;border-bottom:1px dashed var(--shadow);background:none;font:inherit;padding:2px 1px;white-space:nowrap}
     .transport-foot{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:6px;font-size:14px}
     .transport-foot .transport-hint{margin:0}
@@ -220,9 +222,10 @@
       const startCenter = centroid(origin), endCenter = centroid(target);
       const homeYaw=.27, homePitch=.235;
       let yaw=homeYaw, pitch=homePitch, time=0, last=null, frame=0;
-      let pointer=null, drag=null, visible=true;
+      let pointer=null, pointerProgress=null, drag=null, visible=true;
       let w=0,h=0,scale=1,dpr=1,progressDrawn=-1;
-      let basis,faces,colors, sprites,background;
+      let basis,faces,background,departurePalette,arrivalPalette;
+      const readRgb = hex => hex.slice(1).match(/../g).map(pair=>parseInt(pair,16));
       function project(x,y,z) {
         const z1=x*basis.sy+z*basis.cy;
         return [w/2+scale*(x*basis.cy-z*basis.sy),h*.49-scale*(y*basis.cp-z1*basis.sp),
@@ -235,7 +238,7 @@
         context.scale(dpr,dpr);
         return {canvas,context};
       }
-      // All cubes have the same orientation. Cache their three lit faces once per camera view.
+      // All cubes share one sprite per size and palette.
       function cubeSprite(size,palette) {
         const box=Math.ceil(scale*size*2+4), {canvas,context}=makeCanvas(box,box);
         for (const [corners,shade] of faces) {
@@ -267,22 +270,21 @@
         ];
         const data=getComputedStyle(figure);
         const get=name=>data.getPropertyValue(name).trim();
-        colors={grid:get('--grid'),ink:get('--blue')};
-        const size=mode==='entropy'?.43:.86;
-        sprites={
-          moving:cubeSprite(size,[get('--cube-lit'),get('--cube-shade'),get('--cube-front')]),
-          source:cubeSprite(.78,[get('--ghost-lit'),get('--ghost-shade'),get('--ghost-front')]),
-          target:cubeSprite(.78,[get('--end-lit'),get('--end-shade'),get('--end-front')])
-        };
-        const layer=makeCanvas(w,h), back=layer.context; background=layer.canvas;
+        const grid=get('--grid'), ink=get('--blue');
+        const palette=prefix=>['lit','shade','front'].map(face=>get('--'+prefix+'-'+face));
+        departurePalette=palette('cube').map(readRgb);
+        arrivalPalette=palette('arrival').map(readRgb);
+        const sourceSprite=cubeSprite(.78,palette('ghost')), targetSprite=cubeSprite(.78,palette('end'));
+        const back=background.context;
+        back.clearRect(0,0,w,h);
         // A floor grid supplies a fixed reference while the visitor orbits the clouds.
         back.save(); back.beginPath();back.rect(0,0,w,h);back.clip();
-        for(let x=-36;x<=36;x+=4)line(back,project(x,-8,-12),project(x,-8,12),colors.grid,.85);
-        for(let z=-12;z<=12;z+=4)line(back,project(-36,-8,z),project(36,-8,z),colors.grid,.85);
+        for(let x=-36;x<=36;x+=4)line(back,project(x,-8,-12),project(x,-8,12),grid,.85);
+        for(let z=-12;z<=12;z+=4)line(back,project(-36,-8,z),project(36,-8,z),grid,.85);
         back.restore();
         const anchors=[];
         for(let i=0;i<origin.length;i++){
-          anchors.push([project(...origin[i]),sprites.source],[project(...target[i]),sprites.target]);
+          anchors.push([project(...origin[i]),sourceSprite],[project(...target[i]),targetSprite]);
         }
         anchors.sort((a,b)=>a[0][2]-b[0][2]);
         for(const [point,sprite] of anchors)stamp(back,sprite,point);
@@ -292,28 +294,34 @@
           return {id,a:start,dx:end[0]-start[0],dy:end[1]-start[1],dz:end[2]-start[2],point:[0,0,0]};
         });
         back.globalAlpha=mode==='entropy' ? .016 : .055;
-        for(const {a,dx,dy} of projected)line(back,a,[a[0]+dx,a[1]+dy],colors.ink,.65);
+        for(const {a,dx,dy} of projected)line(back,a,[a[0]+dx,a[1]+dy],ink,.65);
         back.globalAlpha=1;
-        followPointer();
+        updatePointerProgress();
         paint(true);
       }
       function paint(force=false) {
         if(!background)return;
-        const t=1-Math.abs(1-time/duration);
+        const t=progress();
         if(t===progressDrawn&&!force)return;
         progressDrawn=t;
-        ctx.clearRect(0,0,w,h);ctx.drawImage(background,0,0,w,h);
+        ctx.clearRect(0,0,w,h);ctx.drawImage(background.canvas,0,0,w,h);
         for(const {a,dx,dy,dz,point} of projected){
           point[0]=a[0]+t*dx;point[1]=a[1]+t*dy;point[2]=a[2]+t*dz;
         }
         projected.sort((p,q)=>p.point[2]-q.point[2] || p.id-q.id);
-        for(const path of projected)stamp(ctx,sprites.moving,path.point);
+        const palette=departurePalette.map((rgb,face)=>{
+          const blended=rgb.map((from,i)=>Math.round(from+(arrivalPalette[face][i]-from)*t));
+          return 'rgb('+blended.join(',')+')';
+        });
+        const moving=cubeSprite(mode==='entropy'?.43:.86,palette);
+        for(const path of projected)stamp(ctx,moving,path.point);
       }
       function layout() {
         w=field.clientWidth;h=field.clientHeight;
         dpr=Math.min(2,window.devicePixelRatio||1);
         field.width=Math.round(w*dpr); field.height=Math.round(h*dpr);
         ctx.setTransform(dpr,0,0,dpr,0,0);
+        background=makeCanvas(w,h);
         fitView();
       }
       function fitView() {
@@ -322,16 +330,41 @@
         const bounds=[...origin,...target].reduce((m,[x,y,z])=>Math.max(m,Math.abs(y*cp-(x*sy+z*cy)*sp)),1);
         scale=Math.min(w/76,h/23,h*.44/(bounds+1));
         setScene();
+        syncPlayback();
+      }
+      const progress=()=>1-Math.abs(1-time/duration);
+      const canAutoplay=()=>!reducedMotion.matches&&!pointer&&!drag;
+      function shouldAnimate() {
+        return visible&&!document.hidden&&
+          (canAutoplay()||(pointerProgress!==null&&Math.abs(progress()-pointerProgress)>1e-9));
       }
       function tick(now) {
-        if(last!==null) time=(time+now-last)%(2*duration);
-        last=now;paint();frame=requestAnimationFrame(tick);
+        frame=0;
+        const elapsed=last===null?0:now-last;
+        // Orbiting redraws every trajectory. Limit camera updates to roughly 30 fps.
+        if(canAutoplay()&&last!==null&&elapsed<30){syncPlayback();return;}
+        last=now;
+        if(canAutoplay()){
+          time=(time+elapsed)%(2*duration);
+          yaw=(yaw+elapsed*2*Math.PI/25000)%(2*Math.PI);
+          fitView();
+        }else if(pointerProgress!==null){
+          const delta=pointerProgress-progress();
+          const t=Math.abs(delta)<.001?pointerProgress:progress()+delta*(-Math.expm1(-elapsed/145));
+          time=(time>duration?2-t:t)*duration;
+          paint();
+        }
+        syncPlayback();
       }
       function syncPlayback() {
-        cancelAnimationFrame(frame);last=null;
-        if(!reducedMotion.matches&&!pointer&&!drag&&visible&&!document.hidden)frame=requestAnimationFrame(tick);
+        if(shouldAnimate()){
+          if(!frame)frame=requestAnimationFrame(tick);
+        }else{
+          cancelAnimationFrame(frame);frame=0;last=null;
+        }
       }
-      function followPointer() {
+      function updatePointerProgress() {
+        pointerProgress=null;
         if(!pointer||!basis)return;
         const box=field.getBoundingClientRect();
         const [ax,ay]=project(...startCenter), [bx,by]=project(...endCenter);
@@ -339,8 +372,7 @@
         // The two centers can overlap when viewed along the transport axis.
         if(lengthSquared<16)return;
         const fraction=((pointer.x-box.left-ax)*dx+(pointer.y-box.top-ay)*dy)/lengthSquared;
-        const t=Math.min(1,Math.max(0,fraction));
-        time=(time>duration?2-t:t)*duration;
+        pointerProgress=Math.min(1,Math.max(0,fraction));
       }
       function updatePointer(e) {
         const wasInside=Boolean(pointer);
@@ -348,7 +380,9 @@
         const inside=e.pointerType!=='touch'&&e.type!=='pointercancel'&&
           e.clientX>=box.left&&e.clientX<box.right&&e.clientY>=box.top&&e.clientY<box.bottom;
         pointer=inside?{x:e.clientX,y:e.clientY}:null;
-        if(wasInside!==inside)syncPlayback();
+        if(wasInside!==inside)last=null;
+        updatePointerProgress();
+        syncPlayback();
       }
       function orbit(dx,dy) {
         yaw=(yaw+dx)%(2*Math.PI);
@@ -358,7 +392,7 @@
       function resetView(){yaw=homeYaw;pitch=homePitch;fitView();}
       // A touch drag on the scene is an orbit. Suppress its emulated mouse gesture.
       stage.addEventListener('touchstart',e=>{if(e.cancelable)e.preventDefault();},{passive:false});
-      stage.addEventListener('pointerenter',e=>{if(e.isPrimary){updatePointer(e);followPointer();paint();}});
+      stage.addEventListener('pointerenter',e=>{if(e.isPrimary)updatePointer(e);});
       stage.addEventListener('pointerdown',e=>{
         if(!e.isPrimary||e.button!==0)return;
         drag={id:e.pointerId,x:e.clientX,y:e.clientY};stage.setPointerCapture(e.pointerId);
@@ -370,17 +404,19 @@
         if(drag && drag.id===e.pointerId){
           orbit((drag.x-e.clientX)*.009,(e.clientY-drag.y)*.009);
           drag.x=e.clientX;drag.y=e.clientY;
-        }else{followPointer();paint();}
+        }
       });
       function release(e){
         if(!drag||drag.id!==e.pointerId)return;
         drag=null;stage.classList.remove('orbiting');
-        updatePointer(e);followPointer();paint();syncPlayback();
+        updatePointer(e);
       }
       stage.addEventListener('pointerup',release);
       stage.addEventListener('pointercancel',release);
       stage.addEventListener('lostpointercapture',release);
-      stage.addEventListener('pointerleave',e=>{if(e.isPrimary&&!drag){pointer=null;syncPlayback();}});
+      stage.addEventListener('pointerleave',e=>{
+        if(e.isPrimary&&!drag){pointer=null;pointerProgress=null;last=null;syncPlayback();}
+      });
       stage.addEventListener('keydown',e=>{
         const steps={ArrowLeft:[-.14,0],ArrowRight:[.14,0],ArrowUp:[0,.12],ArrowDown:[0,-.12]};
         if(steps[e.key]){e.preventDefault();orbit(...steps[e.key]);}
