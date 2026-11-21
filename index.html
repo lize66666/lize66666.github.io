@@ -46,7 +46,7 @@
     .profile-portrait{grid-area:photo;display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;object-position:50% 40%;padding:4px;background:var(--paper);border:2px solid var(--border);box-shadow:3px 3px 0 var(--shadow)}
     @media(max-width:600px){.profile-header{grid-template-columns:minmax(0,1fr) clamp(60px,17vw,88px);grid-template-areas:"name photo" "bio bio";column-gap:12px}.profile-portrait{padding:2px}}
     .name-transport{margin:30px 0 0;max-width:880px}
-    .transport-caption,.transport-tools{display:flex;align-items:center;gap:12px}
+    .transport-caption{display:flex;align-items:center;gap:12px}
     .transport-caption{justify-content:space-between;flex-wrap:wrap;gap:0 14px;color:var(--ink);font-size:20px}
     .transport-modes{display:inline-flex;margin-block:4px;border:2px solid var(--border)}
     .transport-modes button{background:transparent;color:var(--muted);border:0;padding:4px 11px;font-size:15px;line-height:1.5}
@@ -69,18 +69,10 @@
     .transport-foot{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:6px;font-size:14px}
     .transport-foot .transport-hint{margin:0}
     @media(pointer:coarse){.transport-reset{min-height:44px}}
-    .transport-tools{margin-top:9px;font-size:16px;line-height:1.3}
-    .transport-play{color:#292735;background:var(--mint);border:2px solid var(--border);box-shadow:2px 2px 0 var(--shadow);padding:4px 10px;min-width:63px}
-    .transport-play:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--shadow)}
-    .name-transport[data-playing=true] .when-paused,.name-transport:not([data-playing=true]) .when-playing{display:none}
-    .transport-time{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
-    .transport-math{font:italic 18px Georgia,serif}
-    .transport-time input{flex:1;width:100%;min-width:0;margin:0;accent-color:var(--blue)}
-    .transport-tools output{min-width:4ch;text-align:right;color:var(--blue);font:14px/1.2 Consolas,monospace}
     .transport-hint{margin:6px 0 0}
     .name-transport .coarse-pointer{display:none}
-    @media(pointer:coarse){.name-transport .fine-pointer{display:none}.name-transport .coarse-pointer{display:inline}.transport-time,.transport-play{min-height:44px}}
-    @media(max-width:500px){.transport-caption{font-size:18px}.transport-method,.transport-hint{font-size:13px}.transport-tools{gap:7px;font-size:14px}.transport-play{min-width:47px;padding-inline:5px}.transport-tools output{font-size:12px}.transport-time{gap:4px}}
+    @media(pointer:coarse){.name-transport .fine-pointer{display:none}.name-transport .coarse-pointer{display:inline}}
+    @media(max-width:500px){.transport-caption{font-size:18px}.transport-method,.transport-hint{font-size:13px}}
     @media print{.name-transport{display:none}}
   </style>
 </head>
@@ -117,15 +109,8 @@
         <div class="transport-stage" aria-describedby="plan-note" data-scene="voxel-orbit" tabindex="0" role="group" aria-label="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-zh="三维名字点云，可用方向键旋转，Home 键恢复视角。" data-aria-en="3D name clouds. Use the arrow keys to rotate and Home to reset the view.">
           <canvas class="transport-field" role="img" aria-label="李泽和 LI ZE 各由四层立方块构成。蓝线连接每个粒子的起点和终点。" data-aria-zh="李泽和 LI ZE 各由四层立方块构成。蓝线连接每个粒子的起点和终点。" data-aria-en="Four layers of cubes form 李泽 and LI ZE. Blue lines connect each particle’s starting point to its destination.">李泽 → LI ZE</canvas>
         </div>
-        <div class="transport-tools">
-          <button class="transport-play" type="button">
-            <span class="when-playing" data-zh="暂停" data-en="Pause">暂停</span><span class="when-paused" data-zh="播放" data-en="Play">播放</span>
-          </button>
-          <label class="transport-time"><span class="transport-math" aria-hidden="true">t</span><input id="transport-time" type="range" min="0" max="100" value="0" aria-label="传输进度" data-aria-zh="传输进度" data-aria-en="Transport progress"></label>
-          <output for="transport-time">0%</output>
-        </div>
         <div class="transport-foot">
-          <p class="transport-hint"><span class="fine-pointer" data-zh="鼠标横移定位进度 · 拖动旋转视角" data-en="Hover to scrub · Drag to rotate">鼠标横移定位进度 · 拖动旋转视角</span><span class="coarse-pointer" data-zh="拖动旋转视角 · 滑杆调节进度" data-en="Drag to rotate · Use the slider to scrub">拖动旋转视角 · 滑杆调节进度</span></p>
+          <p class="transport-hint"><span class="fine-pointer" data-zh="鼠标在两组点云间移动 · 按住拖动可旋转" data-en="Move between the clouds · Drag to rotate">鼠标在两组点云间移动 · 按住拖动可旋转</span><span class="coarse-pointer" data-zh="拖动旋转视角" data-en="Drag to rotate">拖动旋转视角</span></p>
           <button type="button" class="transport-reset" data-zh="复位视角" data-en="Reset view">复位视角</button>
         </div>
       </figure>
@@ -169,8 +154,6 @@
       const ctx = field.getContext('2d');
       if (!ctx) return;
       const stage = figure.querySelector('.transport-stage');
-      const slider = figure.querySelector('#transport-time'), output = figure.querySelector('output');
-      const play = figure.querySelector('.transport-play');
       const reset = figure.querySelector('.transport-reset');
       const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
       const chinese = [
@@ -232,10 +215,12 @@
         return {a:corner(origin[i],k%8), b:corner(target[j],end%8)};
       });
       let mode='ordinary', projected=[];
-      const hold = 1250, duration = 5300, period = hold+duration+1600;
+      const duration = 5300;
+      const centroid = points => points[0].map((_,axis)=>points.reduce((sum,p)=>sum+p[axis],0)/points.length);
+      const startCenter = centroid(origin), endCenter = centroid(target);
       const homeYaw=.27, homePitch=.235;
       let yaw=homeYaw, pitch=homePitch, time=0, last=null, frame=0;
-      let playing=!reducedMotion.matches, hover=false, drag=null, visible=true;
+      let pointer=null, drag=null, visible=true;
       let w=0,h=0,scale=1,dpr=1,progressDrawn=-1;
       let basis,faces,colors, sprites,background;
       function project(x,y,z) {
@@ -309,11 +294,12 @@
         back.globalAlpha=mode==='entropy' ? .016 : .055;
         for(const {a,dx,dy} of projected)line(back,a,[a[0]+dx,a[1]+dy],colors.ink,.65);
         back.globalAlpha=1;
+        followPointer();
         paint(true);
       }
       function paint(force=false) {
         if(!background)return;
-        const t=Math.min(1,Math.max(0,(time-hold)/duration));
+        const t=1-Math.abs(1-time/duration);
         if(t===progressDrawn&&!force)return;
         progressDrawn=t;
         ctx.clearRect(0,0,w,h);ctx.drawImage(background,0,0,w,h);
@@ -322,16 +308,12 @@
         }
         projected.sort((p,q)=>p.point[2]-q.point[2] || p.id-q.id);
         for(const path of projected)stamp(ctx,sprites.moving,path.point);
-        const percent=String(Math.round(100*t));
-        if(slider.value!==percent)slider.value=percent;
-        if(output.value!==percent+'%')output.value=percent+'%';
       }
       function layout() {
         w=field.clientWidth;h=field.clientHeight;
         dpr=Math.min(2,window.devicePixelRatio||1);
         field.width=Math.round(w*dpr); field.height=Math.round(h*dpr);
         ctx.setTransform(dpr,0,0,dpr,0,0);
-        scale=Math.min(w/76,h/23);
         fitView();
       }
       function fitView() {
@@ -342,19 +324,31 @@
         setScene();
       }
       function tick(now) {
-        if(last!==null) time=(time+now-last)%period;
+        if(last!==null) time=(time+now-last)%(2*duration);
         last=now;paint();frame=requestAnimationFrame(tick);
       }
       function syncPlayback() {
-        cancelAnimationFrame(frame);last=null;figure.dataset.playing=String(playing);
-        if(playing&&!hover&&!drag&&visible&&!document.hidden)frame=requestAnimationFrame(tick);
+        cancelAnimationFrame(frame);last=null;
+        if(!reducedMotion.matches&&!pointer&&!drag&&visible&&!document.hidden)frame=requestAnimationFrame(tick);
       }
-      function seek(fraction) {
-        time=hold+duration*Math.min(1,Math.max(0,fraction));paint();
+      function followPointer() {
+        if(!pointer||!basis)return;
+        const box=field.getBoundingClientRect();
+        const [ax,ay]=project(...startCenter), [bx,by]=project(...endCenter);
+        const dx=bx-ax,dy=by-ay,lengthSquared=dx*dx+dy*dy;
+        // The two centers can overlap when viewed along the transport axis.
+        if(lengthSquared<16)return;
+        const fraction=((pointer.x-box.left-ax)*dx+(pointer.y-box.top-ay)*dy)/lengthSquared;
+        const t=Math.min(1,Math.max(0,fraction));
+        time=(time>duration?2-t:t)*duration;
       }
-      function hoverAt(e) {
-        if(!hover){hover=true;syncPlayback();}
-        const box=stage.getBoundingClientRect();seek((e.clientX-box.left)/box.width);
+      function updatePointer(e) {
+        const wasInside=Boolean(pointer);
+        const box=stage.getBoundingClientRect();
+        const inside=e.pointerType!=='touch'&&e.type!=='pointercancel'&&
+          e.clientX>=box.left&&e.clientX<box.right&&e.clientY>=box.top&&e.clientY<box.bottom;
+        pointer=inside?{x:e.clientX,y:e.clientY}:null;
+        if(wasInside!==inside)syncPlayback();
       }
       function orbit(dx,dy) {
         yaw=(yaw+dx)%(2*Math.PI);
@@ -364,30 +358,29 @@
       function resetView(){yaw=homeYaw;pitch=homePitch;fitView();}
       // A touch drag on the scene is an orbit. Suppress its emulated mouse gesture.
       stage.addEventListener('touchstart',e=>{if(e.cancelable)e.preventDefault();},{passive:false});
-      stage.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch'&&!drag)hoverAt(e)});
+      stage.addEventListener('pointerenter',e=>{if(e.isPrimary){updatePointer(e);followPointer();paint();}});
       stage.addEventListener('pointerdown',e=>{
         if(!e.isPrimary||e.button!==0)return;
         drag={id:e.pointerId,x:e.clientX,y:e.clientY};stage.setPointerCapture(e.pointerId);
-        stage.classList.add('orbiting');syncPlayback();
+        stage.classList.add('orbiting');updatePointer(e);syncPlayback();
       });
       stage.addEventListener('pointermove',e=>{
+        if(!e.isPrimary)return;
+        updatePointer(e);
         if(drag && drag.id===e.pointerId){
           orbit((drag.x-e.clientX)*.009,(e.clientY-drag.y)*.009);
           drag.x=e.clientX;drag.y=e.clientY;
-        }else if(!drag&&e.isPrimary&&e.pointerType!=='touch')hoverAt(e);
+        }else{followPointer();paint();}
       });
       function release(e){
         if(!drag||drag.id!==e.pointerId)return;
         drag=null;stage.classList.remove('orbiting');
-        const box=stage.getBoundingClientRect();
-        hover=e.type!=='pointercancel'&&e.pointerType!=='touch'&&
-          e.clientX>=box.left&&e.clientX<box.right&&e.clientY>=box.top&&e.clientY<box.bottom;
-        syncPlayback();
+        updatePointer(e);followPointer();paint();syncPlayback();
       }
       stage.addEventListener('pointerup',release);
       stage.addEventListener('pointercancel',release);
       stage.addEventListener('lostpointercapture',release);
-      stage.addEventListener('pointerleave',()=>{if(!drag){hover=false;syncPlayback();}});
+      stage.addEventListener('pointerleave',e=>{if(e.isPrimary&&!drag){pointer=null;syncPlayback();}});
       stage.addEventListener('keydown',e=>{
         const steps={ArrowLeft:[-.14,0],ArrowRight:[.14,0],ArrowUp:[0,.12],ArrowDown:[0,-.12]};
         if(steps[e.key]){e.preventDefault();orbit(...steps[e.key]);}
@@ -403,9 +396,7 @@
         figure.querySelector('.entropy-note').hidden=mode!=='entropy';
         setScene();
       });
-      play.addEventListener('click',()=>{playing=!playing;syncPlayback();});
-      slider.addEventListener('input',()=>{playing=false;syncPlayback();seek(Number(slider.value)/100);});
-      reducedMotion.addEventListener('change',()=>{playing=!reducedMotion.matches;syncPlayback();});
+      reducedMotion.addEventListener('change',syncPlayback);
       document.addEventListener('visibilitychange',syncPlayback);
       new MutationObserver(setScene).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
       new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;syncPlayback();}).observe(figure);
